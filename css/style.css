@@ -143,6 +143,11 @@
 	top: 100px;
 }
 
+#tstatMonitor{
+	position: relative;;
+	top: 70px;
+}
+o
 #calendarPick{
 	bottom: -15px
 }

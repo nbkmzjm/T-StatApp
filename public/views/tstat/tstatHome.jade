@@ -1,0 +1,23 @@
+extends ../layout/layout.jade
+	
+block title 
+	title Message
+
+block header
+	#header
+	include ../layout/header.jade
+
+block horMenu
+	include ../layout/horMenu.jade
+
+block content
+	#container
+		#tstatMonitor
+			p=temp 
+				span  Frenhieh
+			p=humid
+				span  Humidiy
+			p AC mode: 
+				span=mode
+			p Temp Set: 
+				span=setTemp

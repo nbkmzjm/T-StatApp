@@ -118,6 +118,27 @@ app.get('/test', function(req, res){
 	// res.send('hey hey')
 })
 
+app.get('/tstat', function(req, res){
+	
+	res.render('tstat/tstatHome', {
+		temp:req.query.temp,
+		humid:req.query.humid,
+		mode:req.query.mode,
+		setTemp:req.query.setTemp
+
+	})
+})
+
+app.get('/tstaton', function(req, res){
+	console.log(req.query.q)
+	res.send('Let is:'+req.query.q)
+})
+
+app.get('/tstatoff/:param1', function(req, res){
+	req.params.param1
+	res.send(req.params.param1)
+})
+
 
 app.get('/', middleware.requireAuthentication, function(req, res, next) {
 
