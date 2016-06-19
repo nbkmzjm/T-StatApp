@@ -140,7 +140,7 @@ app.get('/tstatoff/:param1', function(req, res){
 })
 
 
-app.get('/', middleware.requireAuthentication, function(req, res, next) {
+app.get('/', function(req, res, next) {
 
 	db.assign.findAll({
 		include: [db.user]
