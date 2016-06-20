@@ -125,7 +125,7 @@ app.get('/tstatMoni', function(req, res){
 		// mode:req.query.mode,
 		// setTemp:req.query.setTemp
 	console.log(temp + '-'+humid)
-	res.end();
+	res.send(temp);
 })
 
 app.get('/tstaton', function(req, res){
