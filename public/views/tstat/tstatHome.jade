@@ -13,11 +13,24 @@ block horMenu
 block content
 	#container
 		#tstatMonitor
-			p=temp 
-				span  Frenhieh
+			p Temp:  
+				span(id='temp')=temp
 			p=humid
 				span  Humidiy
 			p AC mode: 
 				span=mode
 			p Temp Set: 
 				span=setTemp
+append scripts 
+	script.
+		$(function(){
+			setInterval(function(){
+				$.getJSON('/getTempxx').done(function(Rdata){
+					$('#temp').text(Rdata.temp + 'updated')
+					//- alert(Rdata.temp+ 'updated')
+					
+				})
+					
+			}, 5000)
+
+		})

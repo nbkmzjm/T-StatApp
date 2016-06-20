@@ -23,6 +23,8 @@ var Umzug = require('umzug')
 var db = require('./db.js');
 
 var middleware = require('./middleware.js')(db);
+var LocalStorage = require('node-localstorage').LocalStorage
+localStorage = new LocalStorage('./scratch')
 
 app.use(cookieParser());
 // app.use(middleware.logger);
@@ -118,6 +120,29 @@ app.get('/test', function(req, res){
 	// res.send('hey hey')
 })
 
+app.get('/getTempxx', function(req, res){
+	// var temp = 'xx'
+	res.json({
+		temp:localStorage.getItem('temp')
+	})
+})
+
+app.get('/tstat', function(req, res){
+	
+	var temp = localStorage.getItem('temp')
+	var humid = req.query.humid
+
+	res.render('tstat/tstatHome',{
+		temp:temp
+	})
+		// mode:req.query.mode,
+		// setTemp:req.query.setTemp
+	
+	
+	
+	
+})
+
 app.get('/tstatMoni', function(req, res){
 	
 	var temp = req.query.temp
@@ -126,9 +151,7 @@ app.get('/tstatMoni', function(req, res){
 		// setTemp:req.query.setTemp
 	console.log(temp + '-'+humid)
 	
-	res.cookie('temp', temp, {
-				maxAge: 10000
-			});
+	localStorage.setItem('temp', temp)
 	res.send('Temp is: ' + temp);
 })
 
