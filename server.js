@@ -118,15 +118,14 @@ app.get('/test', function(req, res){
 	// res.send('hey hey')
 })
 
-app.get('/tstat', function(req, res){
+app.get('/tstatMoni', function(req, res){
 	
-	res.render('tstat/tstatHome', {
-		temp:req.query.temp,
-		humid:req.query.humid,
-		mode:req.query.mode,
-		setTemp:req.query.setTemp
-
-	})
+	var temp = req.query.temp
+	var humid = req.query.humid
+		// mode:req.query.mode,
+		// setTemp:req.query.setTemp
+	console.log(temp + '-'+humid)
+	res.end();
 })
 
 app.get('/tstaton', function(req, res){
