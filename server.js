@@ -168,6 +168,7 @@ app.get('/tstatMoni', function(req, res){
 	
 	var temp = req.query.temp
 	var humid = req.query.humid
+	temp = (temp*9/5)+32
 		// mode:req.query.mode,
 		// setTemp:req.query.setTemp
 	

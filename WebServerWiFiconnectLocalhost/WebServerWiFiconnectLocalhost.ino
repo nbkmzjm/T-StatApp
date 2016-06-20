@@ -103,7 +103,7 @@ void loop() {
       client.print(String("GET ") + url + " HTTP/1.1\r\n" +
                    "Host: " + host + "\r\n" + 
                    "Connection: close\r\n\r\n");
-      client.stop();   
+      
       client.connect(host, 80);
       String urlmode = "/tstatMode";
       urlmode += "?mode=";
