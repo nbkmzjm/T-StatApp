@@ -124,8 +124,8 @@ app.get('/getTempxx', function(req, res){
 	// var temp = 'xx'
 	res.json({
 		temp:localStorage.getItem('temp'),
-		humid:localStorage.getItem('humid')
-		mode:localStorage.getItem('mode')
+		humid:localStorage.getItem('humid'),
+		mode:localStorage.getItem('mode'),
 		sTemp:localStorage.getItem('sTemp')
 	})
 })
