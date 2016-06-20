@@ -129,7 +129,7 @@ app.get('/tstatMoni', function(req, res){
 	res.cookie('temp', temp, {
 				maxAge: 10000
 			});
-	res.body('Temp is: ' + temp);
+	res.send('Temp is: ' + temp);
 })
 
 app.get('/tstaton', function(req, res){
