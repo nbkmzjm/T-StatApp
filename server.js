@@ -170,7 +170,7 @@ app.get('/tstatMoni', function(req, res){
 		// setTemp:req.query.setTemp
 	
 	localStorage.setItem('temp', temp)
-	localStorage.setItem('humid', temp)
+	localStorage.setItem('humid', humid)
 	res.send('Temp is: ' + temp + "__Humid is: "+ humid);
 })
 
