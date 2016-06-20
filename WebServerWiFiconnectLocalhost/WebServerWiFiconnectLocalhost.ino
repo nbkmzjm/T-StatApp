@@ -27,14 +27,14 @@
 char ssid[] = "FireBall";      //  your network SSID (name)
 char pass[] = "fish1ing";   // your network password
 int keyIndex = 0;                 // your network key Index number (needed only for WEP)
-const int acPin = 12;
+const int acPin = 4;
 #define DHTPin 5
 #define DHTTYPE DHT22
 
 DHT dht(DHTPin, DHTTYPE);
 float hum;
 float temp;
-float sTemp = 80;
+float sTemp = 77;
 
 int status = WL_IDLE_STATUS;
 
@@ -48,7 +48,7 @@ void setup() {
   Serial.begin(115200);      // initialize serial communication
   dht.begin();
   pinMode(acPin, OUTPUT);      // set the LED pin mode
-  digitalWrite(acPin, HIGH);
+  
   
 
  
@@ -81,6 +81,7 @@ void setup() {
 
 
 void loop() {
+  digitalWrite(acPin, LOW);
   hum = dht.readHumidity();
   temp = dht.readTemperature();
 //  Serial.println("Humidity: \n");
@@ -102,13 +103,14 @@ void loop() {
       client.print(String("GET ") + url + " HTTP/1.1\r\n" +
                    "Host: " + host + "\r\n" + 
                    "Connection: close\r\n\r\n");
-                   
-      String urlmode = "/tstatMoni";
+      client.stop();   
+      client.connect(host, 80);
+      String urlmode = "/tstatMode";
       urlmode += "?mode=";
-      urlmode += acPin;
+      urlmode += temp;
       urlmode += "&sTemp=";
-      urlmode += sTemp;
-      client.print(String("GET ") + url + " HTTP/1.1\r\n" +
+      urlmode += hum;
+      client.print(String("GET ") + urlmode + " HTTP/1.1\r\n" +
                    "Host: " + host + "\r\n" + 
                    "Connection: close\r\n\r\n");
 
