@@ -24,16 +24,17 @@
 #include <ESP8266WiFi.h>
 #include <DHT.h>
 
-char ssid[] = "ThienIphone";      //  your network SSID (name)
-char pass[] = "aivynguyen";   // your network password
+char ssid[] = "FireBall";      //  your network SSID (name)
+char pass[] = "fish1ing";   // your network password
 int keyIndex = 0;                 // your network key Index number (needed only for WEP)
-const int digitalPin = 16;
+const int acPin = 12;
 #define DHTPin 5
 #define DHTTYPE DHT22
 
 DHT dht(DHTPin, DHTTYPE);
 float hum;
 float temp;
+float sTemp = 80;
 
 int status = WL_IDLE_STATUS;
 
@@ -41,12 +42,14 @@ char host[] = "tstat.herokuapp.com";
 WiFiClient client;
 
 long lastConTime = 0;
-const long delayInterval= 5L * 1000L;
+const long delayInterval= 2L * 1000L;
 
 void setup() {
   Serial.begin(115200);      // initialize serial communication
   dht.begin();
-  pinMode(digitalPin, OUTPUT);      // set the LED pin mode
+  pinMode(acPin, OUTPUT);      // set the LED pin mode
+  digitalWrite(acPin, HIGH);
+  
 
  
   
@@ -88,16 +91,29 @@ void loop() {
   if (millis()- lastConTime > delayInterval){
     client.stop();
     if(client.connect(host, 80)){
-      String url = "/tstatMoni";
+      client.connect(host, 80);
       
+      String url = "/tstatMoni";
       url += "?temp=";
       url += temp;
       url += "&humid=";
       url += hum;
-      client.connect(host, 80);
+      
       client.print(String("GET ") + url + " HTTP/1.1\r\n" +
                    "Host: " + host + "\r\n" + 
                    "Connection: close\r\n\r\n");
+                   
+      String urlmode = "/tstatMoni";
+      urlmode += "?mode=";
+      urlmode += acPin;
+      urlmode += "&sTemp=";
+      urlmode += sTemp;
+      client.print(String("GET ") + url + " HTTP/1.1\r\n" +
+                   "Host: " + host + "\r\n" + 
+                   "Connection: close\r\n\r\n");
+
+
+                   
       lastConTime = millis();
     }else{
       Serial.println("connection failed");

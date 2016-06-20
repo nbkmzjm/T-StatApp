@@ -123,23 +123,42 @@ app.get('/test', function(req, res){
 app.get('/getTempxx', function(req, res){
 	// var temp = 'xx'
 	res.json({
-		temp:localStorage.getItem('temp')
+		temp:localStorage.getItem('temp'),
+		humid:localStorage.getItem('humid')
 	})
 })
 
 app.get('/tstat', function(req, res){
 	
 	var temp = localStorage.getItem('temp')
-	var humid = req.query.humid
+	var humid = localStorage.getItem('humid')
+	var mode = localStorage.getItem('mode')
+	var sTemp = localStorage.getItem('sTemp')
 
 	res.render('tstat/tstatHome',{
-		temp:temp
+		temp:temp,
+		humid:humid,
+		mode:mode,
+		sTemp:sTemp
 	})
 		// mode:req.query.mode,
 		// setTemp:req.query.setTemp
 	
 	
 	
+	
+})
+
+app.get('/tstatMode', function(req, res){
+	
+	var mode = req.query.mode
+	var sTemp = req.query.sTemp
+		// mode:req.query.mode,
+		// setTemp:req.query.setTemp
+	
+	localStorage.setItem('mode', mode)
+	localStorage.setItem('sTemp', sTemp)
+	res.send('mode is: ' + mode + "___sTemp is: "+ sTemp);
 	
 })
 
@@ -149,10 +168,10 @@ app.get('/tstatMoni', function(req, res){
 	var humid = req.query.humid
 		// mode:req.query.mode,
 		// setTemp:req.query.setTemp
-	console.log(temp + '-'+humid)
 	
 	localStorage.setItem('temp', temp)
-	res.send('Temp is: ' + temp);
+	localStorage.setItem('humid', temp)
+	res.send('Temp is: ' + temp + "__Humid is: "+ humid);
 })
 
 app.get('/tstaton', function(req, res){

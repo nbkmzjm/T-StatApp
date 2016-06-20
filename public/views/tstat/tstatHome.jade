@@ -13,24 +13,27 @@ block horMenu
 block content
 	#container
 		#tstatMonitor
-			p Temp:  
+			p Inside Temperature:  
 				span(id='temp')=temp
-			p=humid
-				span  Humidiy
+			p Humidity:
+				span(id='humid')=humid
 			p AC mode: 
-				span=mode
-			p Temp Set: 
-				span=setTemp
+				span(id='mode')=mode
+			p Set Temperature: 
+				span(id='sTemp')=sTemp
 append scripts 
 	script.
 		$(function(){
 			setInterval(function(){
 				$.getJSON('/getTempxx').done(function(Rdata){
-					$('#temp').text(Rdata.temp + 'updated')
+					$('#temp').text(Rdata.temp)
+					$('#humid').text(Rdata.humid)
+					$('#mode').text(Rdata.mode)
+					$('#sTemp').text(Rdata.sTemp)
 					//- alert(Rdata.temp+ 'updated')
 					
 				})
 					
-			}, 5000)
+			}, 2000)
 
 		})
