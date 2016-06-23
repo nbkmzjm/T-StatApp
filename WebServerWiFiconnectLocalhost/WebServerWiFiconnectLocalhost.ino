@@ -24,17 +24,21 @@
 #include <ESP8266WiFi.h>
 #include <DHT.h>
 
-char ssid[] = "FireBall";      //  your network SSID (name)
-char pass[] = "fish1ing";   // your network password
+char ssid[] = "ThienIphone";      //  your network SSID (name)
+char pass[] = "aivynguyen";   // your network password
 int keyIndex = 0;                 // your network key Index number (needed only for WEP)
 const int acPin = 4;
 #define DHTPin 5
+#define HEATPin 13
+#define ACPin 15
 #define DHTTYPE DHT22
 
 DHT dht(DHTPin, DHTTYPE);
 float hum;
 float temp;
-float sTemp = 77;
+float sTemp = 78;
+String modeStatus = "";
+
 
 int status = WL_IDLE_STATUS;
 
@@ -47,7 +51,8 @@ const long delayInterval= 2L * 1000L;
 void setup() {
   Serial.begin(115200);      // initialize serial communication
   dht.begin();
-  pinMode(acPin, OUTPUT);      // set the LED pin mode
+  pinMode(ACPin, OUTPUT);      // set the LED pin mode
+  pinMode(HEATPin, OUTPUT);      // set the LED pin mode
   
   
 
@@ -63,10 +68,11 @@ void setup() {
     // wait 10 seconds for connection:
     delay(10000);
   }
+
   Serial.println("Connected to wifi");
   printWifiStatus();                        // you're connected now, so print out the status
 
-   Serial.println("\nStarting connection to server...");
+  Serial.println("\nStarting connection to server...");
   // if you get a connection, report back via serial:
   if (client.connect(host, 80)) {
     Serial.println("connected to server");
@@ -76,42 +82,62 @@ void setup() {
 //    client.println("Connection: close");
 //    client.println();
   }
+
+  digitalWrite(ACPin, LOW);
+  digitalWrite(HEATPin, LOW);
  
 }
 
 
 void loop() {
-  digitalWrite(acPin, LOW);
+
   hum = dht.readHumidity();
   temp = dht.readTemperature();
 //  Serial.println("Humidity: \n");
 //  Serial.println(hum);
 //  Serial.println("\nTemp: \n");
 //  Serial.println(temp);
-
+  // arrMode [] = [ACPin,HEATPin]
+  // for(i=0; i<sizeof(arrMode)-1; i++){}
+  if(ACPin=='HIGH'){
+    modeStatus= "AC";
+  }else if(HEATPin=='HIGH'){
+    modeStatus = "HEAT";
+  }else{
+    modeStatus = "OFF";
+  }
+  
   if (millis()- lastConTime > delayInterval){
     client.stop();
     if(client.connect(host, 80)){
+//      client.connect(host, 80);
+//      
+//      String url = "/tstatMoni";
+//      url += "?temp=";
+//      url += temp;
+//      url += "&humid=";
+//      url += hum;
+//      url += "&mode=";
+//      url += modeStatus;
+//      url += "&sTemp=";
+//      url += sTemp;
+//      
+//      client.print(String("GET ") + url + " HTTP/1.1\r\n" +
+//                   "Host: " + host + "\r\n" + 
+//                   "Connection: close\r\n\r\n");
+      temp=22;
+      hum=33;
       client.connect(host, 80);
-      
-      String url = "/tstatMoni";
-      url += "?temp=";
-      url += temp;
-      url += "&humid=";
-      url += hum;
-      
-      client.print(String("GET ") + url + " HTTP/1.1\r\n" +
+      String urlparam = "";
+      urlparam += "mode=";
+      urlparam += temp;
+      urlparam += "&sTemp=";
+      urlparam += hum;
+      client.print(String("POST /tstatMode") + " HTTP/1.1\r\n" +
                    "Host: " + host + "\r\n" + 
-                   "Connection: close\r\n\r\n");
-      
-      client.connect(host, 80);
-      String urlmode = "/tstatMode";
-      urlmode += "?mode=";
-      urlmode += temp;
-      urlmode += "&sTemp=";
-      urlmode += hum;
-      client.print(String("GET ") + urlmode + " HTTP/1.1\r\n" +
-                   "Host: " + host + "\r\n" + 
+                   "Content-Type: application/x-www-form-urlencoded\r\n" + 
+                   "Content-Length: 16\r\n\r"+
+                   urlparam+
                    "Connection: close\r\n\r\n");
 
 
