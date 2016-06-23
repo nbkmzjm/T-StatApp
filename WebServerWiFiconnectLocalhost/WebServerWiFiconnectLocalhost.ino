@@ -154,12 +154,12 @@ void loop() {
   // if there are incoming bytes available
   // from the server, read them and print them:
   while (client.available()) {
-    char c = client.read();
-    c = 79;
-    if(c==80){
+    String c = String(client.read(), ASCII);
+    
+    if(c.indexOf('xxx')){
       digitalWrite(HEATPin, HIGH);
     }
-    
+    Serial.println(c);
   }
   
   
