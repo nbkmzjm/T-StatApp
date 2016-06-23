@@ -155,7 +155,11 @@ void loop() {
   // from the server, read them and print them:
   while (client.available()) {
     char c = client.read();
-    Serial.write(c);
+    c = 79;
+    if(c==80){
+      digitalWrite(HEATPin, HIGH);
+    }
+    
   }
   
   
