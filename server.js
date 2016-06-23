@@ -153,10 +153,11 @@ app.get('/tstat', function(req, res){
 
 app.post('/tstatMode', function(req, res){
 	
-	var mode = req.query.mode
-	var sTemp = req.query.sTemp
-		// mode:req.query.mode,
-		// setTemp:req.query.setTemp
+	var mode = req.body.mode
+	var sTemp = req.body.sTemp
+	console.log(mode+sTemp)
+	// 	// mode:req.query.mode,
+	// 	// setTemp:req.query.setTemp
 	
 	localStorage.setItem('mode', mode)
 	localStorage.setItem('sTemp', sTemp)
@@ -177,6 +178,11 @@ app.get('/tstatMoni', function(req, res){
 	localStorage.setItem('mode', mode)
 	localStorage.setItem('sTemp', sTemp)
 	res.send('Temp is: ' + temp + "__Humid is: "+ humid);
+})
+
+app.get('/testPost', function(req, res){
+	// console.log(req.query.q)
+	res.render('tstat/testStat')
 })
 
 app.get('/tstaton', function(req, res){
