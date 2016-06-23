@@ -137,7 +137,7 @@ void loop() {
                    "Host: " + host + "\r\n" + 
                    "Content-Type: application/x-www-form-urlencoded\r\n" + 
                    "Content-Length: 16\r\n\r"+
-                   urlparam+
+                   urlparam+ "\r\n"+
                    "Connection: close\r\n\r\n");
 
 
