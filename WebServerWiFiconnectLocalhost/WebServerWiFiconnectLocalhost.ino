@@ -125,20 +125,20 @@ void loop() {
 //      client.print(String("GET ") + url + " HTTP/1.1\r\n" +
 //                   "Host: " + host + "\r\n" + 
 //                   "Connection: close\r\n\r\n");
-      temp=22;
-      hum=33;
+      
       client.connect(host, 80);
       String urlparam = "";
       urlparam += "mode=";
       urlparam += temp;
       urlparam += "&sTemp=";
       urlparam += hum;
+      Serial.println(urlparam.length());
       client.print(String("POST /tstatMode") + " HTTP/1.1\r\n" +
                    "Host: " + host + "\r\n" + 
+                   "Connection: close\r\n" +
                    "Content-Type: application/x-www-form-urlencoded\r\n" + 
-                   "Content-Length: 17\r\n\r"+
-                   urlparam+ "\r\n"+
-                   "Connection: close\r\n\r\n");
+                   "Content-Length: " + urlparam.length()+ "\r\n\r\n"+
+                   urlparam+ "\r\n");
 
 
                    
