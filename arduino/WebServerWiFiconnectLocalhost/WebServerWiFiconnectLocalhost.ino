@@ -39,7 +39,7 @@ float temp;
 float sTemp = 78;
 String modeStatus = "";
 String c;
-
+int i = 1;
 int status = WL_IDLE_STATUS;
 
 char host[] = "tstat.herokuapp.com"; 
@@ -66,7 +66,7 @@ void setup() {
     // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
     status = WiFi.begin(ssid, pass);
     // wait 10 seconds for connection:
-    delay(10000);
+    delay(6000);
   }
 
   Serial.println("Connected to wifi");
@@ -154,12 +154,16 @@ void loop() {
   // if there are incoming bytes available
   // from the server, read them and print them:
   while (client.available()) {
-    c = client.read();
-    
-    if(c=="xx"){
-      digitalWrite(HEATPin, HIGH);
-    }
+    c = client.readStringUntil('\n');
+    if(i==10){
+//      if(c=="xx"){
+//        digitalWrite(HEATPin, HIGH);
     Serial.print(c);
+     i = 0; 
+      }
+     
+    
+    i++;
   }
   
   
