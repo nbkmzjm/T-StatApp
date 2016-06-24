@@ -38,7 +38,7 @@ float hum;
 float temp;
 float sTemp = 78;
 String modeStatus = "";
-
+String c;
 
 int status = WL_IDLE_STATUS;
 
@@ -154,12 +154,12 @@ void loop() {
   // if there are incoming bytes available
   // from the server, read them and print them:
   while (client.available()) {
-    String c = String(client.read(), ASCII);
+    c = client.read();
     
-    if(c.indexOf('xxx')){
+    if(c=="xx"){
       digitalWrite(HEATPin, HIGH);
     }
-    Serial.println(c);
+    Serial.print(c);
   }
   
   
