@@ -1,0 +1,40 @@
+extends ../layout/layout.jade
+	
+block title 
+	title Message
+
+block header
+	#header
+	include ../layout/header.jade
+
+block horMenu
+	include ../layout/horMenu.jade
+
+block content
+	#container
+		#tstatMonitor
+			p Inside Temperature:  
+			//- 	span(id='temp')=temp
+			//- p Humidity:
+			//- 	span(id='humid')=humid
+			//- p AC mode: 
+			//- 	span(id='mode')=mode
+			//- p Set Temperature: 
+			//- 	span(id='sTemp')=sTemp
+append scripts 
+	script.
+		$(function(){
+			setInterval(function(){
+				$.post('/tstatMode',{mode:99,sTemp:88}).done(function(Rdata){
+					console.log(JSON.stringify(Rdata, null, 4))
+					//- $('#temp').text(Rdata.temp)
+					//- $('#humid').text(Rdata.humid)
+					//- $('#mode').text(Rdata.mode)
+					//- $('#sTemp').text(Rdata.sTemp)
+					//- alert(Rdata.temp+ 'updated')
+					
+				})
+					
+			}, 2000)
+
+		})
