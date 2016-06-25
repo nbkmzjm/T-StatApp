@@ -155,15 +155,15 @@ void loop() {
   // from the server, read them and print them:
   while (client.available()) {
     c = client.readStringUntil('\n');
-    if(i==10){
+//    if(i==10){
 //      if(c=="xx"){
 //        digitalWrite(HEATPin, HIGH);
     Serial.print(c);
-     i = 0; 
-      }
+//     i = 0; 
+//      }
      
     
-    i++;
+//    i++;
   }
   
   
