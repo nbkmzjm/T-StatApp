@@ -151,17 +151,17 @@ app.get('/tstat', function(req, res){
 	
 })
 
-app.post('/tstatMode', function(req, res){
+app.get('/tstatMode', function(req, res){
 	
-	var mode = req.body.mode
-	var sTemp = req.body.sTemp
-	console.log(mode+sTemp)
-	// 	// mode:req.query.mode,
-	// 	// setTemp:req.query.setTemp
+	// var mode = req.body.mode
+	// var sTemp = req.body.sTemp
+	// console.log(mode+sTemp)
+	// // 	// mode:req.query.mode,
+	// // 	// setTemp:req.query.setTemp
 	
-	localStorage.setItem('mode', mode)
-	localStorage.setItem('sTemp', sTemp)
-	res.send('</br>'+'abxx'+'</br>');
+	// localStorage.setItem('mode', mode)
+	// localStorage.setItem('sTemp', sTemp)
+	res.send("bb"+'\n'+'abxx'+'\n');
 	
 })
 
