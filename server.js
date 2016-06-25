@@ -161,7 +161,9 @@ app.post('/tstatMode', function(req, res){
 	
 	// localStorage.setItem('mode', mode)
 	// localStorage.setItem('sTemp', sTemp)
-	res.send("bb"+'\n'+'abxx'+'\n');
+	res.send({
+		ac:on
+	});
 	
 })
 
