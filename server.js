@@ -151,7 +151,7 @@ app.get('/tstat', function(req, res){
 	
 })
 
-app.get('/tstatMode', function(req, res){
+app.post('/tstatMode', function(req, res){
 	
 	// var mode = req.body.mode
 	// var sTemp = req.body.sTemp
