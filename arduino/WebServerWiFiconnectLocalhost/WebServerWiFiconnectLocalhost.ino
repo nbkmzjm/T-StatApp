@@ -1,3 +1,5 @@
+
+
 /*
   WiFi Web Server LED Blink
 
@@ -20,6 +22,7 @@
  created 25 Nov 2012
  by Tom Igoe
  */
+#include <ArduinoJson.h>
 #include <SPI.h>
 #include <ESP8266WiFi.h>
 #include <DHT.h>
@@ -38,7 +41,7 @@ float hum;
 float temp;
 float sTemp = 78;
 String modeStatus = "";
-String c;
+String json;
 int i = 1;
 int status = WL_IDLE_STATUS;
 
@@ -90,6 +93,7 @@ void setup() {
 
 
 void loop() {
+  
 
   hum = dht.readHumidity();
   temp = dht.readTemperature();
@@ -110,21 +114,21 @@ void loop() {
   if (millis()- lastConTime > delayInterval){
     client.stop();
     if(client.connect(host, 80)){
-//      client.connect(host, 80);
-//      
-//      String url = "/tstatMoni";
-//      url += "?temp=";
-//      url += temp;
-//      url += "&humid=";
-//      url += hum;
-//      url += "&mode=";
-//      url += modeStatus;
-//      url += "&sTemp=";
-//      url += sTemp;
-//      
-//      client.print(String("GET ") + url + " HTTP/1.1\r\n" +
-//                   "Host: " + host + "\r\n" + 
-//                   "Connection: close\r\n\r\n");
+      client.connect(host, 80);
+      
+      String url = "/tstatMoni";
+      url += "?temp=";
+      url += temp;
+      url += "&humid=";
+      url += hum;
+      url += "&mode=";
+      url += modeStatus;
+      url += "&sTemp=";
+      url += sTemp;
+      
+      client.print(String("GET ") + url + " HTTP/1.1\r\n" +
+                   "Host: " + host + "\r\n" + 
+                   "Connection: close\r\n\r\n");
       
       client.connect(host, 80);
       String urlparam = "";
@@ -132,7 +136,7 @@ void loop() {
       urlparam += temp;
       urlparam += "&sTemp=";
       urlparam += hum;
-      Serial.println(urlparam.length());
+//      Serial.println(urlparam.length());
       client.print(String("POST /tstatMode") + " HTTP/1.1\r\n" +
                    "Host: " + host + "\r\n" + 
                    "Connection: close\r\n" +
@@ -154,19 +158,33 @@ void loop() {
   // if there are incoming bytes available
   // from the server, read them and print them:
   while (client.available()) {
-    c = client.readStringUntil('\r');
-//    if(i==10){
-//      if(c=="xx"){
+    json = client.readStringUntil('\r');
+    if(i==11){
+     Serial.print(json);
+
 //        digitalWrite(HEATPin, HIGH);
-      
-     Serial.print(c);
+    char jsonArr[json.length()+1];
+    json.toCharArray(jsonArr,json.length()+1);
+
+
+    StaticJsonBuffer<200> jsonBuffer;
+    JsonObject& root = jsonBuffer.parseObject(jsonArr);
+
+    String x = root["ac"];
+    String y = root["temp"];
+    Serial.print("result x: ");
+    Serial.print(x);
+    Serial.println();
+    Serial.print("result y: ");
+    Serial.print(y);
+    Serial.println();
+    
      
-     
-//    i = 0; 
-//    }
+    i = 0; 
+    }
 //     
 //    
-//    i++;
+    i++;
   }
   
   
