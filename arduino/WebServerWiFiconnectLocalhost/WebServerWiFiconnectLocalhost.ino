@@ -49,7 +49,7 @@ char host[] = "tstat.herokuapp.com";
 WiFiClient client;
 
 long lastConTime = 0;
-const long delayInterval= 2L * 1000L;
+const long delayInterval= 5L * 1000L;
 
 void setup() {
   Serial.begin(115200);      // initialize serial communication
@@ -69,7 +69,7 @@ void setup() {
     // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
     status = WiFi.begin(ssid, pass);
     // wait 10 seconds for connection:
-    delay(6000);
+    delay(5000);
   }
 
   Serial.println("Connected to wifi");
@@ -116,6 +116,43 @@ void loop() {
     if(client.connect(host, 80)){
       client.connect(host, 80);
       
+      String urlWebSet = "/tstatWebSet";
+      
+      
+      client.print(String("GET ") + urlWebSet + " HTTP/1.1\r\n" +
+                   "Host: " + host + "\r\n" + 
+                   "Connection: close\r\n\r\n");
+
+       while (client.available()) {
+        json = client.readStringUntil('\r');
+        if(i==11){
+          Serial.print(json);
+
+          char jsonArr[json.length()+1];
+          json.toCharArray(jsonArr,json.length()+1);
+
+
+          StaticJsonBuffer<200> jsonBuffer;
+          JsonObject& root = jsonBuffer.parseObject(jsonArr);
+          sTemp = root["sTemp"];
+          String x = root["mode"];
+          String y = root["sTemp"];
+          Serial.print("result x: ");
+          Serial.print(x);
+          Serial.println();
+          Serial.print("result y: ");
+          Serial.print(y);
+          Serial.println();
+          
+           
+          i = 0; 
+        }
+        i++;
+      }
+
+
+
+      client.connect(host, 80);
       String url = "/tstatMoni";
       url += "?temp=";
       url += temp;
@@ -130,19 +167,19 @@ void loop() {
                    "Host: " + host + "\r\n" + 
                    "Connection: close\r\n\r\n");
       
-      client.connect(host, 80);
-      String urlparam = "";
-      urlparam += "mode=";
-      urlparam += temp;
-      urlparam += "&sTemp=";
-      urlparam += hum;
-//      Serial.println(urlparam.length());
-      client.print(String("POST /tstatMode") + " HTTP/1.1\r\n" +
-                   "Host: " + host + "\r\n" + 
-                   "Connection: close\r\n" +
-                   "Content-Type: application/x-www-form-urlencoded\r\n" + 
-                   "Content-Length: " + urlparam.length()+ "\r\n\r\n"+
-                   urlparam+ "\r\n");
+//      client.connect(host, 80);
+//      String urlparam = "";
+//      urlparam += "mode=";
+//      urlparam += temp;
+//      urlparam += "&sTemp=";
+//      urlparam += hum;
+//
+//      client.print(String("POST /tstatMode") + " HTTP/1.1\r\n" +
+//                   "Host: " + host + "\r\n" + 
+//                   "Connection: close\r\n" +
+//                   "Content-Type: application/x-www-form-urlencoded\r\n" + 
+//                   "Content-Length: " + urlparam.length()+ "\r\n\r\n"+
+//                   urlparam+ "\r\n");
 
 
                    
@@ -157,35 +194,7 @@ void loop() {
   
   // if there are incoming bytes available
   // from the server, read them and print them:
-  while (client.available()) {
-    json = client.readStringUntil('\r');
-    if(i==11){
-     Serial.print(json);
-
-//        digitalWrite(HEATPin, HIGH);
-    char jsonArr[json.length()+1];
-    json.toCharArray(jsonArr,json.length()+1);
-
-
-    StaticJsonBuffer<200> jsonBuffer;
-    JsonObject& root = jsonBuffer.parseObject(jsonArr);
-
-    String x = root["ac"];
-    String y = root["temp"];
-    Serial.print("result x: ");
-    Serial.print(x);
-    Serial.println();
-    Serial.print("result y: ");
-    Serial.print(y);
-    Serial.println();
-    
-     
-    i = 0; 
-    }
-//     
-//    
-    i++;
-  }
+ 
   
   
   // if the server's disconnected, stop the client:

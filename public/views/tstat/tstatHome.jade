@@ -12,7 +12,7 @@ block horMenu
 
 block content
 	#container
-		#tstatMonitor
+		div(id='tstatMonitor' class = 'navbar')
 			p Inside Temperature:  
 				span(id='temp')=temp
 			p Humidity:
@@ -20,12 +20,13 @@ block content
 			p AC mode: 
 				span(id='mode')=mode
 			p Set Temperature: 
-				span(id='sTemp')=sTemp
+			//- p
+			//- 	input(type="text" id='sTemp' value=sTemp )
 append scripts 
 	script.
 		$(function(){
 			setInterval(function(){
-				$.getJSON('/getTempxx').done(function(Rdata){
+				$.getJSON('/getJSONTemp').done(function(Rdata){
 					$('#temp').text(Rdata.temp)
 					$('#humid').text(Rdata.humid)
 					$('#mode').text(Rdata.mode)
@@ -36,4 +37,39 @@ append scripts
 					
 			}, 2000)
 
+			var setTempul = document.createElement('ul')
+				setTempul.className = "pager"
+				var tempDownli = document.createElement('li')
+					var tempDownspan = document.createElement('span');
+					tempDownspan.innerHTML = "Down"
+					tempDownspan.className = 'glyphicon glyphicon-step-backward'
+					tempDownli.appendChild(tempDownspan)
+				tempDownli.addEventListener('click', function(){
+					setTempInput.value--
+					$.post('/postJSONWebSet',{sTempWeb:setTempInput.value}).done(function(Rdata){})
+				})
+				setTempul.appendChild(tempDownli)
+
+				var setTempli = document.createElement('li')
+					var setTempInput = document.createElement('input')
+					setTempInput.type = 'text'
+					setTempInput.id = 'sTemp'
+					setTempInput.readOnly = 'true'
+					setTempInput.value = !{JSON.stringify(sTemp)}
+					setTempli.appendChild(setTempInput)
+				setTempul.appendChild(setTempli)
+
+				var tempUpli = document.createElement('li')
+					var tempUpspan = document.createElement('span');
+					
+					tempUpspan.className = 'glyphicon glyphicon-step-forward'
+					tempUpspan.innerHTML = "Up"
+					tempUpli.appendChild(tempUpspan)
+				tempUpli.addEventListener('click', function(){
+					setTempInput.value++
+					$.post('/postJSONWebSet',{sTempWeb:setTempInput.value}).done(function(Rdata){})
+				})
+				setTempul.appendChild(tempUpli)
+
+			$('#tstatMonitor').append(setTempul)
 		})

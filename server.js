@@ -120,7 +120,7 @@ app.get('/test', function(req, res){
 	// res.send('hey hey')
 })
 
-app.get('/getTempxx', function(req, res){
+app.get('/getJSONTemp', function(req, res){
 	// var temp = 'xx'
 	res.json({
 		temp:localStorage.getItem('temp'),
@@ -151,21 +151,26 @@ app.get('/tstat', function(req, res){
 	
 })
 
-app.post('/tstatMode', function(req, res){
+app.post('/postJSONWebSet', function(req, res){
 	
-	var mode = req.body.mode
-	var sTemp = req.body.sTemp
-	console.log(mode+sTemp)
+	// var mode = req.body.mode
+	var sTempWeb = req.body.sTempWeb
+	// console.log(mode+sTemp)
 	// mode:req.query.mode,
 	// setTemp:req.query.setTemp
 	
-	localStorage.setItem('mode', mode)
-	localStorage.setItem('sTemp', sTemp)
-	res.send({
-		ac:"on"
-	});
+	// localStorage.setItem('mode', mode)
+	localStorage.setItem('sTemp', sTempWeb)
+	res.end();
 	
 })
+
+app.get('/tstatWebSet', function(req, res){
+	var mode = localStorage.getItem('mode')
+	var sTemp = localStorage.getItem('sTemp')
+	res.send({mode:mode,sTemp:sTemp})
+})
+
 
 app.get('/tstatMoni', function(req, res){
 	
@@ -173,7 +178,7 @@ app.get('/tstatMoni', function(req, res){
 	var humid = req.query.humid
 	temp = (temp*9/5)+32
 	var mode = req.query.mode
-	var setTemp = req.query.setTemp
+	var sTemp = req.query.setTemp
 	
 	localStorage.setItem('temp', temp)
 	localStorage.setItem('humid', humid)
