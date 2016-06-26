@@ -41,7 +41,7 @@ float hum;
 float temp;
 float sTemp = 78;
 String ACmode = "OFF";
-string ACstatus = "OFF";
+String ACstatus = "OFF";
 String json;
 int i = 1;
 int status = WL_IDLE_STATUS;
@@ -121,7 +121,7 @@ void loop() {
        while (client.available()) {
         json = client.readStringUntil('\r');
         if(i==11){
-          Serial.print(json);
+          
 
           char jsonArr[json.length()+1];
           json.toCharArray(jsonArr,json.length()+1);
@@ -129,7 +129,7 @@ void loop() {
 
           StaticJsonBuffer<200> jsonBuffer;
           JsonObject& root = jsonBuffer.parseObject(jsonArr);
-          ACmode = root["ACmode"];
+          ACmode = root["ACmode"].asString();
           sTemp = root["sTemp"];
           
           
@@ -139,7 +139,7 @@ void loop() {
         i++;
       }
 
-      
+      Serial.print(json);
       Serial.print("result x: ");
       Serial.print(ACmode);
       Serial.println();
@@ -166,15 +166,15 @@ void loop() {
                    "Connection: close\r\n\r\n");
       
 
-      if(ACmode=="OFF"){
-        digitalWrite(ACPin, LOW);
-        digitalWrite(HEATPin, LOW);
-        ACstatus = "OFF"
-      }else if(HEATPin=='HIGH'){
-        modeStatus = "HEAT";
-      }else{
-        modeStatus = "OFF";
-      }
+//      if(ACmode=="OFF"){
+//        digitalWrite(ACPin, LOW);
+//        digitalWrite(HEATPin, LOW);
+//        ACstatus = "OFF"
+//      }else if(HEATPin=='HIGH'){
+//        modeStatus = "HEAT";
+//      }else{
+//        modeStatus = "OFF";
+//      }
 //      client.connect(host, 80);
 //      String urlparam = "";
 //      urlparam += "mode=";
