@@ -156,8 +156,8 @@ app.post('/tstatMode', function(req, res){
 	var mode = req.body.mode
 	var sTemp = req.body.sTemp
 	console.log(mode+sTemp)
-	// 	// mode:req.query.mode,
-	// 	// setTemp:req.query.setTemp
+	// mode:req.query.mode,
+	// setTemp:req.query.setTemp
 	
 	localStorage.setItem('mode', mode)
 	localStorage.setItem('sTemp', sTemp)
@@ -172,8 +172,8 @@ app.get('/tstatMoni', function(req, res){
 	var temp = req.query.temp
 	var humid = req.query.humid
 	temp = (temp*9/5)+32
-	mode:req.query.mode,
-	setTemp:req.query.setTemp
+	var mode = req.query.mode
+	var setTemp = req.query.setTemp
 	
 	localStorage.setItem('temp', temp)
 	localStorage.setItem('humid', humid)
