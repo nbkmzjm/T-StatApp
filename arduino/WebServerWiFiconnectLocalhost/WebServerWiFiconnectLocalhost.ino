@@ -40,7 +40,8 @@ DHT dht(DHTPin, DHTTYPE);
 float hum;
 float temp;
 float sTemp = 78;
-String modeStatus = "";
+String ACmode = "OFF";
+string ACstatus = "OFF";
 String json;
 int i = 1;
 int status = WL_IDLE_STATUS;
@@ -103,13 +104,7 @@ void loop() {
 //  Serial.println(temp);
   // arrMode [] = [ACPin,HEATPin]
   // for(i=0; i<sizeof(arrMode)-1; i++){}
-  if(ACPin=='HIGH'){
-    modeStatus= "AC";
-  }else if(HEATPin=='HIGH'){
-    modeStatus = "HEAT";
-  }else{
-    modeStatus = "OFF";
-  }
+  
   
   if (millis()- lastConTime > delayInterval){
     client.stop();
@@ -134,15 +129,9 @@ void loop() {
 
           StaticJsonBuffer<200> jsonBuffer;
           JsonObject& root = jsonBuffer.parseObject(jsonArr);
+          ACmode = root["ACmode"];
           sTemp = root["sTemp"];
-          String x = root["mode"];
-          String y = root["sTemp"];
-          Serial.print("result x: ");
-          Serial.print(x);
-          Serial.println();
-          Serial.print("result y: ");
-          Serial.print(y);
-          Serial.println();
+          
           
            
           i = 0; 
@@ -150,6 +139,13 @@ void loop() {
         i++;
       }
 
+      
+      Serial.print("result x: ");
+      Serial.print(ACmode);
+      Serial.println();
+      Serial.print("result y: ");
+      Serial.print(sTemp);
+      Serial.println();
 
 
       client.connect(host, 80);
@@ -158,8 +154,10 @@ void loop() {
       url += temp;
       url += "&humid=";
       url += hum;
-      url += "&mode=";
-      url += modeStatus;
+      url += "&ACmode=";
+      url += ACmode;
+      url += "&ACmode=";
+      url += ACstatus;
       url += "&sTemp=";
       url += sTemp;
       
@@ -167,6 +165,16 @@ void loop() {
                    "Host: " + host + "\r\n" + 
                    "Connection: close\r\n\r\n");
       
+
+      if(ACmode=="OFF"){
+        digitalWrite(ACPin, LOW);
+        digitalWrite(HEATPin, LOW);
+        ACstatus = "OFF"
+      }else if(HEATPin=='HIGH'){
+        modeStatus = "HEAT";
+      }else{
+        modeStatus = "OFF";
+      }
 //      client.connect(host, 80);
 //      String urlparam = "";
 //      urlparam += "mode=";

@@ -1,0 +1,1 @@
+/tstatMoni?temp=27&humid=90&ACmode=on&ACstatus=coolon&setTemp=89

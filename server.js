@@ -125,7 +125,8 @@ app.get('/getJSONTemp', function(req, res){
 	res.json({
 		temp:localStorage.getItem('temp'),
 		humid:localStorage.getItem('humid'),
-		mode:localStorage.getItem('mode'),
+		ACstatus:localStorage.getItem('ACstatus'),
+		ACmode:localStorage.getItem('ACmode'),
 		sTemp:localStorage.getItem('sTemp')
 	})
 })
@@ -134,13 +135,15 @@ app.get('/tstat', function(req, res){
 	
 	var temp = localStorage.getItem('temp')
 	var humid = localStorage.getItem('humid')
-	var mode = localStorage.getItem('mode')
+	var ACmode = localStorage.getItem('ACmode')
+	var ACstatus = localStorage.getItem('ACstatus')
 	var sTemp = localStorage.getItem('sTemp')
 
 	res.render('tstat/tstatHome',{
 		temp:temp,
 		humid:humid,
-		mode:mode,
+		ACmode:ACmode,
+		ACstatus:ACstatus,
 		sTemp:sTemp
 	})
 		// mode:req.query.mode,
@@ -154,19 +157,23 @@ app.get('/tstat', function(req, res){
 app.post('/postJSONWebSet', function(req, res){
 	
 	// var mode = req.body.mode
-	var sTempWeb = req.body.sTempWeb
+	var setWeb = req.body.setWeb||localStorage.getItem('setWeb')
+	var sTempWeb = req.body.sTempWeb||localStorage.getItem('sTemp')
 	// console.log(mode+sTemp)
 	// mode:req.query.mode,
 	// setTemp:req.query.setTemp
 	
 	// localStorage.setItem('mode', mode)
+	localStorage.setItem('setWeb', setWeb)
+
 	localStorage.setItem('sTemp', sTempWeb)
-	res.end();
+
+	res.json({msg:'ok'});
 	
 })
 
 app.get('/tstatWebSet', function(req, res){
-	var mode = localStorage.getItem('mode')
+	var ACmode = localStorage.getItem('ACmode')
 	var sTemp = localStorage.getItem('sTemp')
 	res.send({mode:mode,sTemp:sTemp})
 })
@@ -176,13 +183,15 @@ app.get('/tstatMoni', function(req, res){
 	
 	var temp = req.query.temp
 	var humid = req.query.humid
-	temp = (temp*9/5)+32
-	var mode = req.query.mode
+	temp = ((temp*9/5)+32).toFixed(1)
+	var ACmode = req.query.ACmode
+	var ACstatus = req.query.ACstatus
 	var sTemp = req.query.setTemp
 	
 	localStorage.setItem('temp', temp)
 	localStorage.setItem('humid', humid)
-	localStorage.setItem('mode', mode)
+	localStorage.setItem('ACstatus', ACstatus)
+	localStorage.setItem('ACmode', ACmode)
 	localStorage.setItem('sTemp', sTemp)
 	res.send('Temp is: ' + temp + "__Humid is: "+ humid);
 })

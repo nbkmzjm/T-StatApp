@@ -18,27 +18,65 @@ block content
 			p Humidity:
 				span(id='humid')=humid
 			p AC mode: 
-				span(id='mode')=mode
+				span(id='ACmode')=ACmode
+			p AC status: 
+				span(id='ACstatus')=ACstatus
 			p Set Temperature: 
 			//- p
 			//- 	input(type="text" id='sTemp' value=sTemp )
 append scripts 
 	script.
 		$(function(){
-			setInterval(function(){
+			//- setInterval(function(){
 				$.getJSON('/getJSONTemp').done(function(Rdata){
 					$('#temp').text(Rdata.temp)
 					$('#humid').text(Rdata.humid)
-					$('#mode').text(Rdata.mode)
+					$('#ACmode').text(Rdata.ACmode)
+					$('#ACstatus').text(Rdata.ACstatus)
 					$('#sTemp').val(Rdata.sTemp)
 					//- alert(Rdata.temp+ 'updated')
 					
 				})
 					
-			}, 2000)
+			//- }, 2000)
 
 			var setTempul = document.createElement('ul')
 				setTempul.className = "pager"
+				var coolli = document.createElement('li')
+					var onspan = document.createElement('span');
+					onspan.innerHTML = "COOL"
+					coolli.appendChild(onspan)
+				coolli.addEventListener('click', function(){
+					
+					$.post('/postJSONWebSet',{setWeb:"COOL"}).done(function(Rdata){})
+				})
+				setTempul.appendChild(coolli)
+
+				var offli = document.createElement('li')
+					var offspan = document.createElement('span');
+					offspan.innerHTML = "OFF"
+					offli.appendChild(offspan)
+				offli.addEventListener('click', function(){
+					
+					$.post('/postJSONWebSet',{setWeb:"OFF"}).done(function(Rdata){
+					console.log(Rdata)
+					})
+				})
+				setTempul.appendChild(offli)
+
+				var heatli = document.createElement('li')
+					var heatspan = document.createElement('span');
+					heatspan.innerHTML = "HEAT"
+					heatli.appendChild(heatspan)
+				heatli.addEventListener('click', function(){
+					
+					$.post('/postJSONWebSet',{setWeb:"HEAT"}).done(function(Rdata){})
+				})
+				setTempul.appendChild(heatli)
+				
+				
+				
+				
 				var tempDownli = document.createElement('li')
 					var tempDownspan = document.createElement('span');
 					tempDownspan.innerHTML = "Down"
