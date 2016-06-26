@@ -20,8 +20,8 @@ block content
 			p AC mode: 
 				span(id='mode')=mode
 			p Set Temperature: 
-				span(id='sTemp')=mode
-				//- input(type="text" id='sTemp' value=sTemp )
+			//- p
+			//- 	input(type="text" id='sTemp' value=sTemp )
 append scripts 
 	script.
 		$(function(){
@@ -30,7 +30,7 @@ append scripts
 					$('#temp').text(Rdata.temp)
 					$('#humid').text(Rdata.humid)
 					$('#mode').text(Rdata.mode)
-					$('#sTemp').text(Rdata.sTemp)
+					$('#sTemp').val(Rdata.sTemp)
 					//- alert(Rdata.temp+ 'updated')
 					
 				})
@@ -53,7 +53,7 @@ append scripts
 				var setTempli = document.createElement('li')
 					var setTempInput = document.createElement('input')
 					setTempInput.type = 'text'
-					//- setTempInput.id = 'sTemp'
+					setTempInput.id = 'sTemp'
 					setTempInput.readOnly = 'true'
 					setTempInput.value = !{JSON.stringify(sTemp)}
 					setTempli.appendChild(setTempInput)
