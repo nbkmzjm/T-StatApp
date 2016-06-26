@@ -131,6 +131,13 @@ void loop() {
           JsonObject& root = jsonBuffer.parseObject(jsonArr);
           ACmode = root["ACmode"].asString();
           sTemp = root["sTemp"];
+          Serial.print(json);
+          Serial.print("result x: ");
+          Serial.print(ACmode);
+          Serial.println();
+          Serial.print("result y: ");
+          Serial.print(sTemp);
+          Serial.println();
           
           
            
@@ -139,13 +146,7 @@ void loop() {
         i++;
       }
 
-      Serial.print(json);
-      Serial.print("result x: ");
-      Serial.print(ACmode);
-      Serial.println();
-      Serial.print("result y: ");
-      Serial.print(sTemp);
-      Serial.println();
+      
 
 
       client.connect(host, 80);
@@ -156,7 +157,7 @@ void loop() {
       url += hum;
       url += "&ACmode=";
       url += ACmode;
-      url += "&ACmode=";
+      url += "&ACstatus=";
       url += ACstatus;
       url += "&sTemp=";
       url += sTemp;
