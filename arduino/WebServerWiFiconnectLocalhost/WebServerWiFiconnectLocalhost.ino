@@ -1,27 +1,6 @@
 
 
-/*
-  WiFi Web Server LED Blink
 
- A simple web server that lets you blink an LED via the web.
- This sketch will print the IP address of your WiFi Shield (once connected)
- to the Serial monitor. From there, you can open that address in a web browser
- to turn on and off the LED on pin 9.
-
- If the IP address of your shield is yourAddress:
- http://yourAddress/H turns the LED on
- http://yourAddress/L turns it off
-
- This example is written for a network using WPA encryption. For
- WEP or WPA, change the Wifi.begin() call accordingly.
-
- Circuit:
- * WiFi shield attached
- * LED attached to pin 9
-
- created 25 Nov 2012
- by Tom Igoe
- */
 #include <ArduinoJson.h>
 #include <SPI.h>
 #include <ESP8266WiFi.h>
@@ -57,9 +36,6 @@ void setup() {
   dht.begin();
   pinMode(ACPin, OUTPUT);      // set the LED pin mode
   pinMode(HEATPin, OUTPUT);      // set the LED pin mode
-  
-  
-
  
   
   // attempt to connect to Wifi network:
@@ -81,46 +57,34 @@ void setup() {
   if (client.connect(host, 80)) {
     Serial.println("connected to server");
     // Make a HTTP request:
-//    client.println("GET /tstat?temp=90 HTTP/1.1");
-//    client.println("Host: tstat.herokuapp.com");
-//    client.println("Connection: close");
-//    client.println();
-  }
-     client.connect(host, 80);
-        String url = "/tstatMoni";
-        url += "?temp=";
-        url += 1;
-        url += "&humid=";
-        url += 1;
-        url += "&ACmode=";
-        url += ACmode;
-        url += "&ACstatus=";
-        url += ACstatus;
-        url += "&sTemp=";
-        url += sTemp;
+  
+    client.connect(host, 80);
+    String url = "/tstatMoni";
+    url += "?temp=";
+    url += 1;
+    url += "&humid=";
+    url += 1;
+    url += "&ACmode=";
+    url += ACmode;
+    url += "&ACstatus=";
+    url += ACstatus;
+    url += "&sTemp=";
+    url += sTemp;
 
-        Serial.println(url);
-        client.print(String("GET ") + url + " HTTP/1.1\r\n" +
-                     "Host: " + host + "\r\n" + 
-                     "Connection: close\r\n\r\n");
-                     
-  digitalWrite(ACPin, LOW);
-  digitalWrite(HEATPin, LOW);
- 
+    Serial.println(url);
+    client.print(String("GET ") + url + " HTTP/1.1\r\n" +
+                 "Host: " + host + "\r\n" + 
+                 "Connection: close\r\n\r\n");
+                   
+    digitalWrite(ACPin, LOW);
+    digitalWrite(HEATPin, LOW);
+  } 
 }
 
-
 void loop() {
-  
 
   hum = dht.readHumidity();
   temp = dht.readTemperature();
-//  Serial.println("Humidity: \n");
-//  Serial.println(hum);
-//  Serial.println("\nTemp: \n");
-//  Serial.println(temp);
-  // arrMode [] = [ACPin,HEATPin]
-  // for(i=0; i<sizeof(arrMode)-1; i++){}
   
   
   if (millis()- lastConTime > delayInterval){
@@ -135,23 +99,8 @@ void loop() {
                    "Host: " + host + "\r\n\r\n"); 
 //                   "Connection: close\r\n\r\n");
         Serial.println("client connected..");
-       
-
-      
 
 
-
-      
-
-//      if(ACmode=="OFF"){
-//        digitalWrite(ACPin, LOW);
-//        digitalWrite(HEATPin, LOW);
-//        ACstatus = "OFF"
-//      }else if(HEATPin=='HIGH'){
-//        modeStatus = "HEAT";
-//      }else{
-//        modeStatus = "OFF";
-//      }
 //      client.connect(host, 80);
 //      String urlparam = "";
 //      urlparam += "mode=";
@@ -165,8 +114,6 @@ void loop() {
 //                   "Content-Type: application/x-www-form-urlencoded\r\n" + 
 //                   "Content-Length: " + urlparam.length()+ "\r\n\r\n"+
 //                   urlparam+ "\r\n");
-
-
                    
       lastConTime = millis();
     }else{
@@ -198,7 +145,21 @@ void loop() {
       Serial.println();
 
 
-//      delay(500);
+
+      if(ACmode=="HEAT"){
+        digitalWrite(HEATPin, HIGH);
+        ACstatus = "HEAT ON";
+        
+      }else if(ACmode=="COOL"){
+        digitalWrite(ACPin, HIGH);
+        ACstatus = "COOL ON";
+      }else{
+        digitalWrite(ACPin, LOW);
+        digitalWrite(HEATPin, LOW);
+        ACstatus = "OFF";
+      }
+
+
 //      client.connect(host, 80);
       String url = "/tstatMoni";
       url += "?temp=";
@@ -224,22 +185,9 @@ void loop() {
      
   }
 
+
+
   
-  
-  // if there are incoming bytes available
-  // from the server, read them and print them:
- 
-  
-  
-  // if the server's disconnected, stop the client:
-//  if (!client.connected()) {
-//    Serial.println();
-//    Serial.println("disconnecting from server.");
-//    client.stop();
-//
-//    // do nothing forevermore:
-//    while (true);
-//  }
 }
 
 
