@@ -172,7 +172,7 @@ void loop() {
           JsonObject& root = jsonBuffer.parseObject(jsonArr);
           ACmode = root["ACmode"].asString();
           sTemp = root["sTemp"];
-          Serial.println(json);
+          Serial.println("json is:" + json);
           Serial.print("result x: ");
           Serial.print(ACmode);
           Serial.println();
