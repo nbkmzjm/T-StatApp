@@ -153,7 +153,7 @@ void loop() {
       }else if(ACmode=="COOL"){
         digitalWrite(ACPin, HIGH);
         ACstatus = "COOL ON";
-      }else{
+      }else if(ACmode=="OFF"){
         digitalWrite(ACPin, LOW);
         digitalWrite(HEATPin, LOW);
         ACstatus = "OFF";
