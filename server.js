@@ -157,23 +157,23 @@ app.get('/tstat', function(req, res){
 app.post('/postJSONWebSet', function(req, res){
 	
 	// var mode = req.body.mode
-	var setWeb = req.body.setWeb||localStorage.getItem('setWeb')
-	var sTempWeb = req.body.sTempWeb||localStorage.getItem('sTemp')
+	var webSETACmode = req.body.webSETACmode||localStorage.getItem('ACmode')
+	var webSetTemp = req.body.webSetTemp||localStorage.getItem('sTemp')
 	// console.log(mode+sTemp)
 	// mode:req.query.mode,
 	// setTemp:req.query.setTemp
 	
 	// localStorage.setItem('mode', mode)
-	localStorage.setItem('setWeb', setWeb)
+	localStorage.setItem('ACmode', webSETACmode)
 
-	localStorage.setItem('sTemp', sTempWeb)
+	localStorage.setItem('sTemp', webSetTemp)
 
 	res.end();
 	
 })
 
 app.get('/tstatWebSet', function(req, res){
-	var ACmode = localStorage.getItem('setWeb')
+	var ACmode = localStorage.getItem('ACmode')
 	var sTemp = localStorage.getItem('sTemp')
 	res.send({"ACmode":ACmode,"sTemp":sTemp})
 })

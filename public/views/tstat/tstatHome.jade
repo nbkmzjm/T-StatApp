@@ -48,7 +48,7 @@ append scripts
 					coolli.appendChild(onspan)
 				coolli.addEventListener('click', function(){
 					
-					$.post('/postJSONWebSet',{setWeb:"COOL"}).done(function(Rdata){})
+					$.post('/postJSONWebSet',{webSETACmode:"COOL"}).done(function(Rdata){})
 				})
 				setTempul.appendChild(coolli)
 
@@ -58,7 +58,7 @@ append scripts
 					offli.appendChild(offspan)
 				offli.addEventListener('click', function(){
 					
-					$.post('/postJSONWebSet',{setWeb:"OFF"}).done(function(Rdata){})
+					$.post('/postJSONWebSet',{webSETACmode:"OFF"}).done(function(Rdata){})
 				})
 				setTempul.appendChild(offli)
 
@@ -68,7 +68,7 @@ append scripts
 					heatli.appendChild(heatspan)
 				heatli.addEventListener('click', function(){
 					
-					$.post('/postJSONWebSet',{setWeb:"HEAT"}).done(function(Rdata){})
+					$.post('/postJSONWebSet',{webSETACmode:"HEAT"}).done(function(Rdata){})
 				})
 				setTempul.appendChild(heatli)
 				
@@ -82,7 +82,7 @@ append scripts
 					tempDownli.appendChild(tempDownspan)
 				tempDownli.addEventListener('click', function(){
 					setTempInput.value--
-					$.post('/postJSONWebSet',{sTempWeb:setTempInput.value}).done(function(Rdata){})
+					$.post('/postJSONWebSet',{webSetTemp:setTempInput.value}).done(function(Rdata){})
 				})
 				setTempul.appendChild(tempDownli)
 
@@ -103,7 +103,7 @@ append scripts
 					tempUpli.appendChild(tempUpspan)
 				tempUpli.addEventListener('click', function(){
 					setTempInput.value++
-					$.post('/postJSONWebSet',{sTempWeb:setTempInput.value}).done(function(Rdata){})
+					$.post('/postJSONWebSet',{webSetTemp:setTempInput.value}).done(function(Rdata){})
 				})
 				setTempul.appendChild(tempUpli)
 
