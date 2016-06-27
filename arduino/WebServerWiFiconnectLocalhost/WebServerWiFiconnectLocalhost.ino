@@ -50,7 +50,7 @@ char host[] = "tstat.herokuapp.com";
 WiFiClient client;
 
 long lastConTime = 0;
-const long delayInterval= 5L * 1000L;
+const long delayInterval= 10L * 1000L;
 
 void setup() {
   Serial.begin(115200);      // initialize serial communication
@@ -194,7 +194,8 @@ void loop() {
           url += ACstatus;
           url += "&sTemp=";
           url += sTemp;
-          
+
+          Serial.println(url);
           client.print(String("GET ") + url + " HTTP/1.1\r\n" +
                        "Host: " + host + "\r\n" + 
                        "Connection: close\r\n\r\n");

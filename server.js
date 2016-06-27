@@ -193,7 +193,7 @@ app.get('/tstatMoni', function(req, res){
 	localStorage.setItem('ACstatus', ACstatus)
 	localStorage.setItem('ACmode', ACmode)
 	localStorage.setItem('sTemp', sTemp)
-	res.send('Temp is: ' + temp + "__Humid is: "+ humid);
+	// res.send('Temp is: ' + temp + "__Humid is: "+ humid);
 })
 
 app.get('/testPost', function(req, res){
