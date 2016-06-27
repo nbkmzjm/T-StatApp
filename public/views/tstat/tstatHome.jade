@@ -58,9 +58,7 @@ append scripts
 					offli.appendChild(offspan)
 				offli.addEventListener('click', function(){
 					
-					$.post('/postJSONWebSet',{setWeb:"OFF"}).done(function(Rdata){
-					console.log(Rdata)
-					})
+					$.post('/postJSONWebSet',{setWeb:"OFF"}).done(function(Rdata){})
 				})
 				setTempul.appendChild(offli)
 

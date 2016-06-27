@@ -168,12 +168,12 @@ app.post('/postJSONWebSet', function(req, res){
 
 	localStorage.setItem('sTemp', sTempWeb)
 
-	res.json({msg:'ok'});
+	res.end();
 	
 })
 
 app.get('/tstatWebSet', function(req, res){
-	var ACmode = localStorage.getItem('ACmode')
+	var ACmode = localStorage.getItem('setWeb')
 	var sTemp = localStorage.getItem('sTemp')
 	res.send({"ACmode":ACmode,"sTemp":sTemp})
 })
