@@ -50,7 +50,7 @@ char host[] = "tstat.herokuapp.com";
 WiFiClient client;
 
 long lastConTime = 0;
-const long delayInterval= 100L;
+const long delayInterval= 1000L;
 
 void setup() {
   Serial.begin(115200);      // initialize serial communication
