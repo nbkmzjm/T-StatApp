@@ -50,7 +50,7 @@ char host[] = "tstat.herokuapp.com";
 WiFiClient client;
 
 long lastConTime = 0;
-const long delayInterval= 5L * 1000L;
+const long delayInterval= 2L * 1000L;
 
 void setup() {
   Serial.begin(115200);      // initialize serial communication
@@ -180,7 +180,7 @@ void loop() {
     json = client.readStringUntil('\r');
     if(i==11){
       Serial.println("json is:" + json);
-      if(json=="xx"){
+      if(json.indexOf("xx")!=-1){
         Serial.println("json is: XX");
       }else{
       char jsonArr[json.length()+1];

@@ -27,7 +27,7 @@ block content
 append scripts 
 	script.
 		$(function(){
-			//- setInterval(function(){
+			setInterval(function(){
 				$.getJSON('/getJSONTemp').done(function(Rdata){
 					$('#temp').text(Rdata.temp)
 					$('#humid').text(Rdata.humid)
@@ -38,7 +38,7 @@ append scripts
 					
 				})
 					
-			//- }, 2000)
+			}, 2000)
 
 			var setTempul = document.createElement('ul')
 				setTempul.className = "pager"
