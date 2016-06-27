@@ -193,7 +193,7 @@ app.get('/tstatMoni', function(req, res){
 	localStorage.setItem('ACstatus', ACstatus)
 	localStorage.setItem('ACmode', ACmode)
 	localStorage.setItem('sTemp', sTemp)
-	res.send("xx");
+	res.send("xx ");
 })
 
 app.get('/testPost', function(req, res){
