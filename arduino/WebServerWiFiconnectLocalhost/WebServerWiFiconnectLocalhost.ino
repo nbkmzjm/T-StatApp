@@ -50,7 +50,7 @@ char host[] = "tstat.herokuapp.com";
 WiFiClient client;
 
 long lastConTime = 0;
-const long delayInterval= 10L * 1000L;
+const long delayInterval= 5L * 1000L;
 
 void setup() {
   Serial.begin(115200);      // initialize serial communication
@@ -86,7 +86,24 @@ void setup() {
 //    client.println("Connection: close");
 //    client.println();
   }
+     client.connect(host, 80);
+        String url = "/tstatMoni";
+        url += "?temp=";
+        url += 1;
+        url += "&humid=";
+        url += 1;
+        url += "&ACmode=";
+        url += ACmode;
+        url += "&ACstatus=";
+        url += ACstatus;
+        url += "&sTemp=";
+        url += sTemp;
 
+        Serial.println(url);
+        client.print(String("GET ") + url + " HTTP/1.1\r\n" +
+                     "Host: " + host + "\r\n" + 
+                     "Connection: close\r\n\r\n");
+                     
   digitalWrite(ACPin, LOW);
   digitalWrite(HEATPin, LOW);
  
@@ -160,52 +177,54 @@ void loop() {
 
   while (client.available()) {
         
-        json = client.readStringUntil('\r');
-        if(i==11){
-          
-
-          char jsonArr[json.length()+1];
-          json.toCharArray(jsonArr,json.length()+1);
-
-
-          StaticJsonBuffer<200> jsonBuffer;
-          JsonObject& root = jsonBuffer.parseObject(jsonArr);
-          ACmode = root["ACmode"].asString();
-          sTemp = root["sTemp"];
-          Serial.println("json is:" + json);
-          Serial.print("result x: ");
-          Serial.print(ACmode);
-          Serial.println();
-          Serial.print("result y: ");
-          Serial.print(sTemp);
-          Serial.println();
+    json = client.readStringUntil('\r');
+    if(i==11){
+      Serial.println("json is:" + json);
+      if(json=="xx"){
+        Serial.println("json is: XX");
+      }else{
+      char jsonArr[json.length()+1];
+      json.toCharArray(jsonArr,json.length()+1);
 
 
+      StaticJsonBuffer<200> jsonBuffer;
+      JsonObject& root = jsonBuffer.parseObject(jsonArr);
+      ACmode = root["ACmode"].asString();
+      sTemp = root["sTemp"];
+      
+      Serial.print("result x: ");
+      Serial.print(ACmode);
+      Serial.println();
+      Serial.print("result y: ");
+      Serial.print(sTemp);
+      Serial.println();
 
-          client.connect(host, 80);
-          String url = "/tstatMoni";
-          url += "?temp=";
-          url += temp;
-          url += "&humid=";
-          url += hum;
-          url += "&ACmode=";
-          url += ACmode;
-          url += "&ACstatus=";
-          url += ACstatus;
-          url += "&sTemp=";
-          url += sTemp;
 
-          Serial.println(url);
-          client.print(String("GET ") + url + " HTTP/1.1\r\n" +
-                       "Host: " + host + "\r\n" + 
-                       "Connection: close\r\n\r\n");
-          
-          
-          
-          i = 0; 
-        }
-        i++;
+
+      client.connect(host, 80);
+      String url = "/tstatMoni";
+      url += "?temp=";
+      url += temp;
+      url += "&humid=";
+      url += hum;
+      url += "&ACmode=";
+      url += ACmode;
+      url += "&ACstatus=";
+      url += ACstatus;
+      url += "&sTemp=";
+      url += sTemp;
+
+      Serial.println(url);
+      client.print(String("GET ") + url + " HTTP/1.1\r\n" +
+                   "Host: " + host + "\r\n" + 
+                   "Connection: close\r\n\r\n");
+        
       }
+      i = 0; 
+    }  
+    i++;
+     
+  }
 
   
   

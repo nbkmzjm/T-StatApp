@@ -186,7 +186,7 @@ app.get('/tstatMoni', function(req, res){
 	temp = ((temp*9/5)+32).toFixed(1)
 	var ACmode = req.query.ACmode
 	var ACstatus = req.query.ACstatus
-	var sTemp = req.query.setTemp
+	var sTemp = req.query.sTemp
 	
 	localStorage.setItem('temp', temp)
 	localStorage.setItem('humid', humid)
