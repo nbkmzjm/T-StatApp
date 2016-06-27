@@ -20,7 +20,7 @@ float hum;
 float temp;
 float sTemp = 78;
 String ACmode = "OFF";
-String ACstatus = "OFF";
+String ACstatus = "OK";
 String json;
 int i = 1;
 int status = WL_IDLE_STATUS;
@@ -144,20 +144,36 @@ void loop() {
       Serial.print(sTemp);
       Serial.println();
 
-
-
-      if(ACmode=="HEAT"){
-        digitalWrite(HEATPin, HIGH);
-        ACstatus = "HEAT ON";
+      if(ACmode.indexOf("HEAT")!=-1){
+        if(sTemp>temp){
+          digitalWrite(HEATPin, HIGH);
+          digitalWrite(ACPin, LOW);
+          ACstatus = "HEATOn";
+        }else{
+          digitalWrite(HEATPin, LOW);
+          digitalWrite(ACPin, LOW);
+          ACstatus = "HEATOff";
+        }
         
-      }else if(ACmode=="COOL"){
-        digitalWrite(ACPin, HIGH);
-        ACstatus = "COOL ON";
-      }else if(ACmode=="OFF"){
+       }else if(ACmode.indexOf("COOL")!=-1){
+        if(sTemp<temp){
+          digitalWrite(ACPin, HIGH);
+          digitalWrite(HEATPin, LOW);
+          ACstatus = "COOLOn";
+        }else{
+          digitalWrite(ACPin, LOW);
+          digitalWrite(HEATPin, LOW);
+          ACstatus = "COOLOff";
+
+        }
+      }else if(ACmode.indexOf("OFF")!=-1){
         digitalWrite(ACPin, LOW);
         digitalWrite(HEATPin, LOW);
         ACstatus = "OFF";
       }
+
+
+      
 
 
 //      client.connect(host, 80);
@@ -172,6 +188,7 @@ void loop() {
       url += ACstatus;
       url += "&sTemp=";
       url += sTemp;
+      Serial.println("url is:" + url);
 
       Serial.println(url);
       client.print(String("GET ") + url + " HTTP/1.1\r\n" +
