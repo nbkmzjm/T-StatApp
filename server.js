@@ -188,11 +188,11 @@ app.get('/tstatMoni', function(req, res){
 	var ACstatus = req.query.ACstatus
 	var sTemp = req.query.sTemp
 	
-	localStorage.setItem('temp', temp)
-	localStorage.setItem('humid', humid)
-	localStorage.setItem('ACstatus', ACstatus)
-	localStorage.setItem('ACmode', ACmode)
-	localStorage.setItem('sTemp', sTemp)
+	// localStorage.setItem('temp', temp)
+	// localStorage.setItem('humid', humid)
+	// localStorage.setItem('ACstatus', ACstatus)
+	// localStorage.setItem('ACmode', ACmode)
+	// localStorage.setItem('sTemp', sTemp)
 	res.send("xx ");
 })
 

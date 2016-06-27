@@ -50,7 +50,7 @@ char host[] = "tstat.herokuapp.com";
 WiFiClient client;
 
 long lastConTime = 0;
-const long delayInterval= 2L * 1000L;
+const long delayInterval= 100L;
 
 void setup() {
   Serial.begin(115200);      // initialize serial communication
@@ -124,16 +124,16 @@ void loop() {
   
   
   if (millis()- lastConTime > delayInterval){
-    client.stop();
+//    client.stop();
     if(client.connect(host, 80)){
-      client.connect(host, 80);
+//      client.connect(host, 80);
       
       String urlWebSet = "/tstatWebSet";
       
       
       client.print(String("GET ") + urlWebSet + " HTTP/1.1\r\n" +
-                   "Host: " + host + "\r\n" + 
-                   "Connection: close\r\n\r\n");
+                   "Host: " + host + "\r\n\r\n"); 
+//                   "Connection: close\r\n\r\n");
         Serial.println("client connected..");
        
 
@@ -180,9 +180,7 @@ void loop() {
     json = client.readStringUntil('\r');
     if(i==11){
       Serial.println("json is:" + json);
-      if(json.indexOf("xx")!=-1){
-        Serial.println("json is: XX");
-      }else{
+      if(json.indexOf("xx")==-1){
       char jsonArr[json.length()+1];
       json.toCharArray(jsonArr,json.length()+1);
 
@@ -200,8 +198,8 @@ void loop() {
       Serial.println();
 
 
-
-      client.connect(host, 80);
+//      delay(500);
+//      client.connect(host, 80);
       String url = "/tstatMoni";
       url += "?temp=";
       url += temp;
@@ -216,8 +214,8 @@ void loop() {
 
       Serial.println(url);
       client.print(String("GET ") + url + " HTTP/1.1\r\n" +
-                   "Host: " + host + "\r\n" + 
-                   "Connection: close\r\n\r\n");
+                   "Host: " + host + "\r\n\r\n"); 
+//                   "Connection: close\r\n\r\n");
         
       }
       i = 0; 
