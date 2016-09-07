@@ -31,6 +31,10 @@ WiFiClient client;
 long lastConTime = 0;
 const long delayInterval= 1000L;
 
+long lastOnTime = 0;
+const long delayOnInt = 15000;
+
+
 void setup() {
   Serial.begin(115200);      // initialize serial communication
   dht.begin();
@@ -144,35 +148,51 @@ void loop() {
       Serial.print(sTemp);
       Serial.println();
 
-      if(ACmode.indexOf("HEAT")!=-1){
-        if(sTemp>temp){
+      if(ACmode.indexOf("HEAT")!=-1&& millis()-lastOnTime>delayOnInt ){
+         
+        
+        if(sTemp-temp>0){
           digitalWrite(HEATPin, HIGH);
           digitalWrite(ACPin, LOW);
           ACstatus = "HEATOn";
-        }else{
+          lastOnTime = millis();
+        }
+       }else if(ACmode.indexOf("HEAT")!=-1){
+        ACstatus = "HEATOff";
+        if(sTemp-temp<0 ){
           digitalWrite(HEATPin, LOW);
           digitalWrite(ACPin, LOW);
           ACstatus = "HEATOff";
+          lastOnTime = millis();
+          
         }
         
-       }else if(ACmode.indexOf("COOL")!=-1){
-        if(sTemp<temp){
+     }else if(ACmode.indexOf("COOL")!=-1&& millis()-lastOnTime>delayOnInt){
+       
+        if(sTemp-temp<0 ){
           digitalWrite(ACPin, HIGH);
           digitalWrite(HEATPin, LOW);
           ACstatus = "COOLOn";
-        }else{
+          lastOnTime = millis();
+        }
+     }else if(ACmode.indexOf("COOL")!=-1){ 
+         ACstatus = "COOLOff";  
+        if(sTemp-temp>0){
           digitalWrite(ACPin, LOW);
           digitalWrite(HEATPin, LOW);
-          ACstatus = "COOLOff";
+          ACstatus = "COOLOff"; 
+          lastOnTime = millis();
 
         }
       }else if(ACmode.indexOf("OFF")!=-1){
         digitalWrite(ACPin, LOW);
         digitalWrite(HEATPin, LOW);
         ACstatus = "OFF";
+        lastOnTime = millis();
+        
       }
 
-
+      
       
 
 
@@ -227,3 +247,4 @@ void printWifiStatus() {
   Serial.print("To see this page in action, open a browser to http://");
   Serial.println(ip);
 }
+

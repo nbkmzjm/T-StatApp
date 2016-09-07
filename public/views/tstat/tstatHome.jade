@@ -62,6 +62,16 @@ append scripts
 				})
 				setTempul.appendChild(offli)
 
+				var autoli = document.createElement('li')
+					var autoli = document.createElement('span');
+					autospan.innerHTML = "AUTO"
+					autoli.appendChild(autospan)
+				autoli.addEventListener('click', function(){
+					
+					$.post('/postJSONWebSet',{webSETACmode:"AUTO"}).done(function(Rdata){})
+				})
+				setTempul.appendChild(autoli)
+
 				var heatli = document.createElement('li')
 					var heatspan = document.createElement('span');
 					heatspan.innerHTML = "HEAT"
