@@ -18,7 +18,7 @@ const int acPin = 4;
 DHT dht(DHTPin, DHTTYPE);
 float hum;
 float temp;
-float sTemp = 78;
+float sTemp = 130;
 String ACmode = "OFF";
 String ACstatus = "OFF";
 String FanStatus = "AUTO";
