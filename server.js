@@ -140,8 +140,8 @@ app.get('/tstat', function(req, res){
 	var ACmode = localStorage.getItem('ACmode')
 	var ACstatus = localStorage.getItem('ACstatus')
 	var FanStatus = localStorage.getItem('FanStatus')
-	var FanMode = localStorage.getItem('FanMode')||'AUTO'
-	var sTemp = localStorage.getItem('sTemp')||79
+	var FanMode = localStorage.getItem('FanMode')
+	var sTemp = localStorage.getItem('sTemp')
 
 	res.render('tstat/tstatHome',{
 		temp:temp,
@@ -182,7 +182,7 @@ app.post('/postJSONWebSet', function(req, res){
 
 app.get('/tstatWebSet', function(req, res){
 	var ACmode = localStorage.getItem('ACmode')
-	var FanMode = localStorage.getItem('FanMode')
+	var FanMode = localStorage.getItem('FanMode')||'AUTO'
 	var sTemp = ((localStorage.getItem('sTemp')-32)*0.5556).toFixed(1)
 	res.send({"ACmode":ACmode,"sTemp":sTemp,"FanMode":FanMode})
 })
