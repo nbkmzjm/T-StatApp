@@ -71,7 +71,7 @@ append scripts
 				var fanli = document.createElement('li')
 					var fanspan = document.createElement('span');
 					fanspan.innerHTML = "FAN"
-					fanli.appendChild(autospan)
+					fanli.appendChild(fanspan)
 				fanli.addEventListener('click', function(){
 					
 					$.post('/postJSONWebSet',{webSETFanMode:"AUTO"}).done(function(Rdata){})
