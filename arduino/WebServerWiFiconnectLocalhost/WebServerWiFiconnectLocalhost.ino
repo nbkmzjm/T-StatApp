@@ -20,7 +20,9 @@ float hum;
 float temp;
 float sTemp = 78;
 String ACmode = "OFF";
-String ACstatus = "OK";
+String ACstatus = "OFF";
+String FanStatus = "AUTO";
+String FanMode = "AUTO";
 String json;
 int i = 1;
 int status = WL_IDLE_STATUS;
@@ -40,7 +42,8 @@ void setup() {
   dht.begin();
   pinMode(ACPin, OUTPUT);      // set the LED pin mode
   pinMode(HEATPin, OUTPUT);      // set the LED pin mode
- 
+  hum = dht.readHumidity();
+  temp = dht.readTemperature();
   
   // attempt to connect to Wifi network:
   while (status != WL_CONNECTED) {
@@ -65,11 +68,15 @@ void setup() {
     client.connect(host, 80);
     String url = "/tstatMoni";
     url += "?temp=";
-    url += 1;
+    url += temp;
     url += "&humid=";
-    url += 1;
+    url += hum;
     url += "&ACmode=";
     url += ACmode;
+    url += "&FanMode=";
+    url += FanMode;
+    url += "&FanStatus=";
+    url += FanStatus;
     url += "&ACstatus=";
     url += ACstatus;
     url += "&sTemp=";
@@ -140,12 +147,16 @@ void loop() {
       JsonObject& root = jsonBuffer.parseObject(jsonArr);
       ACmode = root["ACmode"].asString();
       sTemp = root["sTemp"];
+      FanMode = root["FanMode"].asString();
       
-      Serial.print("result x: ");
+      Serial.print("result AC mode: ");
       Serial.print(ACmode);
       Serial.println();
-      Serial.print("result y: ");
+      Serial.print("result Set Temp: ");
       Serial.print(sTemp);
+      Serial.println();
+      Serial.print("result Fan Mode: ");
+      Serial.print(FanMode);
       Serial.println();
 
       if(ACmode.indexOf("HEAT")!=-1&& millis()-lastOnTime>delayOnInt ){
@@ -157,8 +168,8 @@ void loop() {
           ACstatus = "HEATOn";
           lastOnTime = millis();
         }
-       }else if(ACmode.indexOf("HEAT")!=-1){
-        ACstatus = "HEATOff";
+      }else if(ACmode.indexOf("HEAT")!=-1){
+        // ACstatus = "HEATOff";
         if(sTemp-temp<0 ){
           digitalWrite(HEATPin, LOW);
           digitalWrite(ACPin, LOW);
@@ -167,7 +178,7 @@ void loop() {
           
         }
         
-     }else if(ACmode.indexOf("COOL")!=-1&& millis()-lastOnTime>delayOnInt){
+      }else if(ACmode.indexOf("COOL")!=-1&& millis()-lastOnTime>delayOnInt){
        
         if(sTemp-temp<0 ){
           digitalWrite(ACPin, HIGH);
@@ -175,8 +186,8 @@ void loop() {
           ACstatus = "COOLOn";
           lastOnTime = millis();
         }
-     }else if(ACmode.indexOf("COOL")!=-1){ 
-         ACstatus = "COOLOff";  
+      }else if(ACmode.indexOf("COOL")!=-1){ 
+         // ACstatus = "COOLOff";  
         if(sTemp-temp>0){
           digitalWrite(ACPin, LOW);
           digitalWrite(HEATPin, LOW);
@@ -204,6 +215,8 @@ void loop() {
       url += hum;
       url += "&ACmode=";
       url += ACmode;
+      url += "&FanStatus=";
+      url += FanStatus;
       url += "&ACstatus=";
       url += ACstatus;
       url += "&sTemp=";

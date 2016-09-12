@@ -127,6 +127,8 @@ app.get('/getJSONTemp', function(req, res){
 		humid:localStorage.getItem('humid'),
 		ACstatus:localStorage.getItem('ACstatus'),
 		ACmode:localStorage.getItem('ACmode'),
+		FanStatus:localStorage.getItem('FanStatus'),
+		FanMode:localStorage.getItem('FanMode'),
 		sTemp:localStorage.getItem('sTemp')
 	})
 })
@@ -137,6 +139,8 @@ app.get('/tstat', function(req, res){
 	var humid = localStorage.getItem('humid')
 	var ACmode = localStorage.getItem('ACmode')
 	var ACstatus = localStorage.getItem('ACstatus')
+	var FanStatus = localStorage.getItem('FanStatus')
+	var FanMode = localStorage.getItem('FanMode')
 	var sTemp = localStorage.getItem('sTemp')
 
 	res.render('tstat/tstatHome',{
@@ -144,7 +148,9 @@ app.get('/tstat', function(req, res){
 		humid:humid,
 		ACmode:ACmode,
 		ACstatus:ACstatus,
-		sTemp:sTemp
+		sTemp:sTemp,
+		FanMode:FanMode,
+		FanStatus:FanStatus
 	})
 		// mode:req.query.mode,
 		// setTemp:req.query.setTemp
@@ -159,6 +165,7 @@ app.post('/postJSONWebSet', function(req, res){
 	// var mode = req.body.mode
 	var webSETACmode = req.body.webSETACmode||localStorage.getItem('ACmode')
 	var webSetTemp = req.body.webSetTemp||localStorage.getItem('sTemp')
+	var webSetFan = req.body.webSetFan||localStorage.getItem('FanMode')
 	// console.log(mode+sTemp)
 	// mode:req.query.mode,
 	// setTemp:req.query.setTemp
@@ -167,6 +174,7 @@ app.post('/postJSONWebSet', function(req, res){
 	localStorage.setItem('ACmode', webSETACmode)
 
 	localStorage.setItem('sTemp', webSetTemp)
+	localStorage.setItem('FanMode', webSETFanMode)
 
 	res.end();
 	
@@ -174,8 +182,9 @@ app.post('/postJSONWebSet', function(req, res){
 
 app.get('/tstatWebSet', function(req, res){
 	var ACmode = localStorage.getItem('ACmode')
+	var FanMode = localStorage.getItem('FanMode')
 	var sTemp = ((localStorage.getItem('sTemp')-32)*0.5556).toFixed(1)
-	res.send({"ACmode":ACmode,"sTemp":sTemp})
+	res.send({"ACmode":ACmode,"sTemp":sTemp,"FanMode":FanMode})
 })
 
 
@@ -191,7 +200,7 @@ app.get('/tstatMoni', function(req, res){
 	localStorage.setItem('temp', temp)
 	localStorage.setItem('humid', humid)
 	localStorage.setItem('ACstatus', ACstatus)
-	// localStorage.setItem('ACmode', ACmode)
+	localStorage.setItem('FanStatus', FanStatus)
 	// localStorage.setItem('sTemp', sTemp)
 	res.send("xx");
 })

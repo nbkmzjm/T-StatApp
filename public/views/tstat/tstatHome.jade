@@ -21,6 +21,10 @@ block content
 				span(id='ACmode')=ACmode
 			p AC status: 
 				span(id='ACstatus')=ACstatus
+			p Fan mode: 
+				span(id='FanMode')=FanMode
+			p Fan status: 
+				span(id='FanStatus')=FanStatus
 			p Set Temperature: 
 			//- p
 			//- 	input(type="text" id='sTemp' value=sTemp )
@@ -33,6 +37,8 @@ append scripts
 					$('#humid').text(Rdata.humid)
 					$('#ACmode').text(Rdata.ACmode)
 					$('#ACstatus').text(Rdata.ACstatus)
+					$('#FanMode').text(Rdata.FanMode)
+					$('#FanStatus').text(Rdata.FanStatus)
 					$('#sTemp').val(Rdata.sTemp)
 					//- alert(Rdata.temp+ 'updated')
 					
@@ -62,13 +68,13 @@ append scripts
 				})
 				setTempul.appendChild(offli)
 
-				var autoli = document.createElement('li')
-					var autospan = document.createElement('span');
-					autospan.innerHTML = "AUTO"
-					autoli.appendChild(autospan)
-				autoli.addEventListener('click', function(){
+				var fanli = document.createElement('li')
+					var fanspan = document.createElement('span');
+					fanspan.innerHTML = "FAN"
+					fanli.appendChild(autospan)
+				fanli.addEventListener('click', function(){
 					
-					$.post('/postJSONWebSet',{webSETACmode:"AUTO"}).done(function(Rdata){})
+					$.post('/postJSONWebSet',{webSETFanMode:"AUTO"}).done(function(Rdata){})
 				})
 				setTempul.appendChild(autoli)
 
