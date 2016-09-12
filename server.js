@@ -174,7 +174,7 @@ app.post('/postJSONWebSet', function(req, res){
 	localStorage.setItem('ACmode', webSETACmode)
 
 	localStorage.setItem('sTemp', webSetTemp)
-	localStorage.setItem('FanMode', webSETFanMode)
+	localStorage.setItem('FanMode', webSetFan)
 
 	res.end();
 	
@@ -195,6 +195,7 @@ app.get('/tstatMoni', function(req, res){
 	temp = ((temp*9/5)+32).toFixed(1)
 	var ACmode = req.query.ACmode
 	var ACstatus = req.query.ACstatus
+	var FanStatus = req.query.FanStatus
 	var sTemp = req.query.sTemp
 	
 	localStorage.setItem('temp', temp)
