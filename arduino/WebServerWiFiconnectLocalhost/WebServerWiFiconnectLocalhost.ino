@@ -13,6 +13,7 @@ const int acPin = 4;
 #define DHTPin 5
 #define HEATPin 13
 #define ACPin 15
+#define FANPin 12
 #define DHTTYPE DHT22
 
 DHT dht(DHTPin, DHTTYPE);
@@ -42,6 +43,7 @@ void setup() {
   dht.begin();
   pinMode(ACPin, OUTPUT);      // set the LED pin mode
   pinMode(HEATPin, OUTPUT);      // set the LED pin mode
+  pinMode(FANPin, OUTPUT);
   hum = dht.readHumidity();
   temp = dht.readTemperature();
   
@@ -89,6 +91,7 @@ void setup() {
                    
     digitalWrite(ACPin, LOW);
     digitalWrite(HEATPin, LOW);
+    digitalWrite(FANPin, LOW);
   } 
 }
 
@@ -165,7 +168,9 @@ void loop() {
         if(sTemp-temp>0){
           digitalWrite(HEATPin, HIGH);
           digitalWrite(ACPin, LOW);
+          digitalWrite(FANPin, HIGH);
           ACstatus = "HEATOn";
+          FanStatus = "ON";
           lastOnTime = millis();
         }
       }else if(ACmode.indexOf("HEAT")!=-1){
@@ -175,6 +180,11 @@ void loop() {
           digitalWrite(ACPin, LOW);
           ACstatus = "HEATOff";
           lastOnTime = millis();
+          if(FanMode.indexOf("AUTO")!=-1){
+            digitalWrite(FANPin, LOW);
+            FanStatus = "OFF";
+          }
+          
           
         }
         
@@ -183,7 +193,9 @@ void loop() {
         if(sTemp-temp<0 ){
           digitalWrite(ACPin, HIGH);
           digitalWrite(HEATPin, LOW);
+          digitalWrite(FANPin, HIGH);
           ACstatus = "COOLOn";
+          FanStatus = "ON";
           lastOnTime = millis();
         }
       }else if(ACmode.indexOf("COOL")!=-1){ 
@@ -193,6 +205,10 @@ void loop() {
           digitalWrite(HEATPin, LOW);
           ACstatus = "COOLOff"; 
           lastOnTime = millis();
+          if(FanMode.indexOf("AUTO")!=-1){
+            digitalWrite(FANPin, LOW);
+            FanStatus = "OFF";
+          }
 
         }
       }else if(ACmode.indexOf("OFF")!=-1){
@@ -200,6 +216,13 @@ void loop() {
         digitalWrite(HEATPin, LOW);
         ACstatus = "OFF";
         lastOnTime = millis();
+        if(FanMode.indexOf("AUTO")!=-1){
+          digitalWrite(FANPin, LOW);
+          FanStatus = "OFF";
+        }else{
+          digitalWrite(FANPin, HIGH);
+          FanStatus = "ON";
+        }
         
       }
 

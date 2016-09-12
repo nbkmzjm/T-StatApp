@@ -68,26 +68,7 @@ append scripts
 				})
 				setTempul.appendChild(offli)
 
-				var fanli = document.createElement('li')
-					var fanspan = document.createElement('span');
-					fanspan.innerHTML = "FAN On"
-					fanli.appendChild(fanspan)
-				fanli.addEventListener('click', function(){
-					
-					$.post('/postJSONWebSet',{webSETFanMode:"ON"}).done(function(Rdata){})
-				})
-				setTempul.appendChild(fanli)
-
-
-				var fanautoli = document.createElement('li')
-					var fanautospan = document.createElement('span');
-					fanautospan.innerHTML = "FAN Auto"
-					fanautoli.appendChild(fanautospan)
-				fanautoli.addEventListener('click', function(){
-					
-					$.post('/postJSONWebSet',{webSETFanMode:"AUTO"}).done(function(Rdata){})
-				})
-				setTempul.appendChild(fanautoli)
+				
 
 				var heatli = document.createElement('li')
 					var heatspan = document.createElement('span');
@@ -133,6 +114,27 @@ append scripts
 					$.post('/postJSONWebSet',{webSetTemp:setTempInput.value}).done(function(Rdata){})
 				})
 				setTempul.appendChild(tempUpli)
+
+				var fanli = document.createElement('li')
+					var fanspan = document.createElement('span');
+					fanspan.innerHTML = "FAN On"
+					fanli.appendChild(fanspan)
+				fanli.addEventListener('click', function(){
+					
+					$.post('/postJSONWebSet',{webSETFanMode:"ON"}).done(function(Rdata){})
+				})
+				setTempul.appendChild(fanli)
+
+
+				var fanautoli = document.createElement('li')
+					var fanautospan = document.createElement('span');
+					fanautospan.innerHTML = "FAN Auto"
+					fanautoli.appendChild(fanautospan)
+				fanautoli.addEventListener('click', function(){
+					
+					$.post('/postJSONWebSet',{webSETFanMode:"AUTO"}).done(function(Rdata){})
+				})
+				setTempul.appendChild(fanautoli)
 
 			$('#tstatMonitor').append(setTempul)
 		})
