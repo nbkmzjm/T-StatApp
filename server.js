@@ -165,7 +165,7 @@ app.post('/postJSONWebSet', function(req, res){
 	// var mode = req.body.mode
 	var webSETACmode = req.body.webSETACmode||localStorage.getItem('ACmode')
 	var webSetTemp = req.body.webSetTemp||localStorage.getItem('sTemp')
-	var webSetFan = req.body.webSetFan||localStorage.getItem('FanMode')
+	var webSETFanMode = req.body.webSETFanMode||localStorage.getItem('FanMode')
 	// console.log(mode+sTemp)
 	// mode:req.query.mode,
 	// setTemp:req.query.setTemp
@@ -174,7 +174,7 @@ app.post('/postJSONWebSet', function(req, res){
 	localStorage.setItem('ACmode', webSETACmode)
 
 	localStorage.setItem('sTemp', webSetTemp)
-	localStorage.setItem('FanMode', webSetFan)
+	localStorage.setItem('FanMode', webSETFanMode)
 
 	res.end();
 	
