@@ -140,8 +140,8 @@ app.get('/tstat', function(req, res){
 	var ACmode = localStorage.getItem('ACmode')
 	var ACstatus = localStorage.getItem('ACstatus')
 	var FanStatus = localStorage.getItem('FanStatus')
-	var FanMode = localStorage.getItem('FanMode')
-	var sTemp = localStorage.getItem('sTemp')
+	var FanMode = localStorage.getItem('FanMode')||'AUTO'
+	var sTemp = localStorage.getItem('sTemp')||79
 
 	res.render('tstat/tstatHome',{
 		temp:temp,
