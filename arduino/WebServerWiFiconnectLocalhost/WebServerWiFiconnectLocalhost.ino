@@ -220,10 +220,10 @@ void loop() {
           digitalWrite(FANPin, LOW);
           FanStatus = "OFF";
         }else{
-          if(millis()-lastOnTime>delayOnInt){
-            digitalWrite(FANPin, HIGH);
-            FanStatus = "ON";
-          }
+          
+          digitalWrite(FANPin, HIGH);
+          FanStatus = "ON";
+          
         }
         
       }
