@@ -46,8 +46,8 @@ append scripts
 					
 			}, 2000)
 
-			var setTempul = document.createElement('ul')
-				setTempul.className = "pager"
+			var setACMode = document.createElement('ul')
+				setACMode.className = "pager"
 				var coolli = document.createElement('li')
 					var onspan = document.createElement('span');
 					onspan.innerHTML = "COOL"
@@ -56,7 +56,7 @@ append scripts
 					
 					$.post('/postJSONWebSet',{webSETACmode:"COOL"}).done(function(Rdata){})
 				})
-				setTempul.appendChild(coolli)
+				setACMode.appendChild(coolli)
 
 				var offli = document.createElement('li')
 					var offspan = document.createElement('span');
@@ -66,7 +66,7 @@ append scripts
 					
 					$.post('/postJSONWebSet',{webSETACmode:"OFF"}).done(function(Rdata){})
 				})
-				setTempul.appendChild(offli)
+				setACMode.appendChild(offli)
 
 				
 
@@ -78,10 +78,13 @@ append scripts
 					
 					$.post('/postJSONWebSet',{webSETACmode:"HEAT"}).done(function(Rdata){})
 				})
-				setTempul.appendChild(heatli)
-				
-				
-				
+				setACMode.appendChild(heatli)
+
+
+
+
+			var setTempul = document.createElement('ul')
+				setTempul.className = "pager"
 				
 				var tempDownli = document.createElement('li')
 					var tempDownspan = document.createElement('span');
@@ -115,6 +118,10 @@ append scripts
 				})
 				setTempul.appendChild(tempUpli)
 
+				
+
+			var setFan = document.createElement('ul')
+				setFan.className = "pager"
 				var fanli = document.createElement('li')
 					var fanspan = document.createElement('span');
 					fanspan.innerHTML = "FAN On"
@@ -123,7 +130,7 @@ append scripts
 					
 					$.post('/postJSONWebSet',{webSETFanMode:"ON"}).done(function(Rdata){})
 				})
-				setTempul.appendChild(fanli)
+				setFan.appendChild(fanli)
 
 
 				var fanautoli = document.createElement('li')
@@ -134,7 +141,11 @@ append scripts
 					
 					$.post('/postJSONWebSet',{webSETFanMode:"AUTO"}).done(function(Rdata){})
 				})
-				setTempul.appendChild(fanautoli)
+				setFan.appendChild(fanautoli)
 
+
+
+			$('#tstatMonitor').append(setACMode)
 			$('#tstatMonitor').append(setTempul)
+			$('#tstatMonitor').append(setFan)
 		})
