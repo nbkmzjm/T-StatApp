@@ -7,12 +7,12 @@
 #include <DHT.h>
 
 char ssid[] = "ThienIphone";      //  your network SSID (name)
-char pass[] = "aivynguyen";   // your network password
+char pass[] = "vynguyen";   // your network password
 int keyIndex = 0;                 // your network key Index number (needed only for WEP)
 const int acPin = 4;
 #define DHTPin 5
 #define HEATPin 13
-#define ACPin 15
+#define ACPin 14
 #define FANPin 12
 #define DHTTYPE DHT22
 
@@ -49,13 +49,16 @@ void setup() {
   
   // attempt to connect to Wifi network:
   while (status != WL_CONNECTED) {
+    digitalWrite(ACPin, HIGH);
+    digitalWrite(HEATPin, HIGH);
+    digitalWrite(FANPin, HIGH);
     Serial.print("Attempting to connect to Network named: ");
     Serial.println(ssid);                   // print the network name (SSID);
 
     // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
     status = WiFi.begin(ssid, pass);
     // wait 10 seconds for connection:
-    delay(5000);
+    delay(10000);
   }
 
   Serial.println("Connected to wifi");
@@ -89,9 +92,9 @@ void setup() {
                  "Host: " + host + "\r\n" + 
                  "Connection: close\r\n\r\n");
                    
-    digitalWrite(ACPin, LOW);
-    digitalWrite(HEATPin, LOW);
-    digitalWrite(FANPin, LOW);
+    digitalWrite(ACPin, HIGH);
+    digitalWrite(HEATPin, HIGH);
+    digitalWrite(FANPin, HIGH);
   } 
 }
 
@@ -166,9 +169,9 @@ void loop() {
          
         
         if(sTemp-temp>0){
-          digitalWrite(HEATPin, HIGH);
-          digitalWrite(ACPin, LOW);
-          digitalWrite(FANPin, HIGH);
+          digitalWrite(HEATPin, LOW);
+          digitalWrite(ACPin, HIGH);
+          digitalWrite(FANPin, LOW);
           ACstatus = "HEATOn";
           FanStatus = "ON";
           lastOnTime = millis();
@@ -176,12 +179,12 @@ void loop() {
       }else if(ACmode.indexOf("HEAT")!=-1){
         // ACstatus = "HEATOff";
         if(sTemp-temp<0 ){
-          digitalWrite(HEATPin, LOW);
-          digitalWrite(ACPin, LOW);
+          digitalWrite(HEATPin, HIGH);
+          digitalWrite(ACPin, HIGH);
           ACstatus = "HEATOff";
           lastOnTime = millis();
           if(FanMode.indexOf("AUTO")!=-1){
-            digitalWrite(FANPin, LOW);
+            digitalWrite(FANPin, HIGH);
             FanStatus = "OFF";
           }
           
@@ -191,9 +194,9 @@ void loop() {
       }else if(ACmode.indexOf("COOL")!=-1&& millis()-lastOnTime>delayOnInt){
        
         if(sTemp-temp<0 ){
-          digitalWrite(ACPin, HIGH);
-          digitalWrite(HEATPin, LOW);
-          digitalWrite(FANPin, HIGH);
+          digitalWrite(ACPin, LOW);
+          digitalWrite(HEATPin, HIGH);
+          digitalWrite(FANPin, LOW);
           ACstatus = "COOLOn";
           FanStatus = "ON";
           lastOnTime = millis();
@@ -201,27 +204,27 @@ void loop() {
       }else if(ACmode.indexOf("COOL")!=-1){ 
          // ACstatus = "COOLOff";  
         if(sTemp-temp>0){
-          digitalWrite(ACPin, LOW);
-          digitalWrite(HEATPin, LOW);
+          digitalWrite(ACPin, HIGH);
+          digitalWrite(HEATPin, HIGH);
           ACstatus = "COOLOff"; 
           lastOnTime = millis();
           if(FanMode.indexOf("AUTO")!=-1){
-            digitalWrite(FANPin, LOW);
+            digitalWrite(FANPin, HIGH);
             FanStatus = "OFF";
           }
 
         }
       }else if(ACmode.indexOf("OFF")!=-1){
-        digitalWrite(ACPin, LOW);
-        digitalWrite(HEATPin, LOW);
+        digitalWrite(ACPin, HIGH);
+        digitalWrite(HEATPin, HIGH);
         ACstatus = "OFF";
         lastOnTime = millis();
         if(FanMode.indexOf("AUTO")!=-1){
-          digitalWrite(FANPin, LOW);
+          digitalWrite(FANPin, HIGH);
           FanStatus = "OFF";
         }else{
           
-          digitalWrite(FANPin, HIGH);
+          digitalWrite(FANPin, LOW);
           FanStatus = "ON";
           
         }
