@@ -1,17 +1,14 @@
-
-
-
 #include <ArduinoJson.h>
 #include <SPI.h>
 #include <ESP8266WiFi.h>
 #include <DHT.h>
 
-char ssid[] = "ThienIphone";      //  your network SSID (name)
-char pass[] = "vynguyen";   // your network password
+char ssid[] = "FireBall";      //  your network SSID (name)
+char pass[] = "fish1ing";   // your network password
 int keyIndex = 0;                 // your network key Index number (needed only for WEP)
 const int acPin = 4;
 #define DHTPin 5
-#define HEATPin 13
+#define HEATPin 4
 #define ACPin 14
 #define FANPin 12
 #define DHTTYPE DHT22
@@ -35,7 +32,11 @@ long lastConTime = 0;
 const long delayInterval= 1000L;
 
 long lastOnTime = 0;
-const long delayOnInt = 15000;
+const long delayOnInt = 240
+
+
+
+000;
 
 
 void setup() {
@@ -49,15 +50,20 @@ void setup() {
   
   // attempt to connect to Wifi network:
   while (status != WL_CONNECTED) {
-    digitalWrite(ACPin, HIGH);
-    digitalWrite(HEATPin, HIGH);
-    digitalWrite(FANPin, HIGH);
+    
     Serial.print("Attempting to connect to Network named: ");
     Serial.println(ssid);                   // print the network name (SSID);
 
     // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
     status = WiFi.begin(ssid, pass);
     // wait 10 seconds for connection:
+    digitalWrite(HEATPin, HIGH);
+    delay(1000);
+    digitalWrite(HEATPin, LOW);
+     delay(1000);
+    digitalWrite(HEATPin, HIGH);
+    delay(1000);
+    digitalWrite(HEATPin, LOW);
     delay(10000);
   }
 
@@ -92,9 +98,9 @@ void setup() {
                  "Host: " + host + "\r\n" + 
                  "Connection: close\r\n\r\n");
                    
-    digitalWrite(ACPin, HIGH);
+    digitalWrite(ACPin, LOW);
     digitalWrite(HEATPin, HIGH);
-    digitalWrite(FANPin, HIGH);
+    digitalWrite(FANPin, LOW);
   } 
 }
 
@@ -164,27 +170,28 @@ void loop() {
       Serial.print("result Fan Mode: ");
       Serial.print(FanMode);
       Serial.println();
+     
 
       if(ACmode.indexOf("HEAT")!=-1&& millis()-lastOnTime>delayOnInt ){
          
-        
-        if(sTemp-temp>0){
+     
+        if(sTemp-temp>0 && temp < 17 ){
           digitalWrite(HEATPin, LOW);
           digitalWrite(ACPin, HIGH);
-          digitalWrite(FANPin, LOW);
+          digitalWrite(FANPin, HIGH);
           ACstatus = "HEATOn";
           FanStatus = "ON";
           lastOnTime = millis();
         }
       }else if(ACmode.indexOf("HEAT")!=-1){
-        // ACstatus = "HEATOff";
+         ACstatus = "HEATOff";
         if(sTemp-temp<0 ){
           digitalWrite(HEATPin, HIGH);
-          digitalWrite(ACPin, HIGH);
+          digitalWrite(ACPin, LOW);
           ACstatus = "HEATOff";
           lastOnTime = millis();
           if(FanMode.indexOf("AUTO")!=-1){
-            digitalWrite(FANPin, HIGH);
+            digitalWrite(FANPin, LOW);
             FanStatus = "OFF";
           }
           
@@ -192,11 +199,12 @@ void loop() {
         }
         
       }else if(ACmode.indexOf("COOL")!=-1&& millis()-lastOnTime>delayOnInt){
-       
-        if(sTemp-temp<0 ){
-          digitalWrite(ACPin, LOW);
+        
+      
+        if(sTemp-temp<0 && temp >23){
+          digitalWrite(ACPin, HIGH);
           digitalWrite(HEATPin, HIGH);
-          digitalWrite(FANPin, LOW);
+          digitalWrite(FANPin, HIGH);
           ACstatus = "COOLOn";
           FanStatus = "ON";
           lastOnTime = millis();
@@ -204,27 +212,27 @@ void loop() {
       }else if(ACmode.indexOf("COOL")!=-1){ 
          // ACstatus = "COOLOff";  
         if(sTemp-temp>0){
-          digitalWrite(ACPin, HIGH);
+          digitalWrite(ACPin, LOW);
           digitalWrite(HEATPin, HIGH);
           ACstatus = "COOLOff"; 
           lastOnTime = millis();
           if(FanMode.indexOf("AUTO")!=-1){
-            digitalWrite(FANPin, HIGH);
+            digitalWrite(FANPin, LOW);
             FanStatus = "OFF";
           }
 
         }
       }else if(ACmode.indexOf("OFF")!=-1){
-        digitalWrite(ACPin, HIGH);
+        digitalWrite(ACPin, LOW);
         digitalWrite(HEATPin, HIGH);
         ACstatus = "OFF";
         lastOnTime = millis();
         if(FanMode.indexOf("AUTO")!=-1){
-          digitalWrite(FANPin, HIGH);
+          digitalWrite(FANPin, LOW);
           FanStatus = "OFF";
         }else{
           
-          digitalWrite(FANPin, LOW);
+          digitalWrite(FANPin, HIGH);
           FanStatus = "ON";
           
         }
@@ -249,7 +257,11 @@ void loop() {
       url += ACstatus;
       url += "&sTemp=";
       url += sTemp;
+      url += "&waiting=";
+      url += 180-((millis()-lastOnTime)/1000);
       Serial.println("url is:" + url);
+      Serial.println("Waiting: ");
+      Serial.println(180-((millis()-lastOnTime)/1000));
 
       Serial.println(url);
       client.print(String("GET ") + url + " HTTP/1.1\r\n" +
@@ -288,4 +300,3 @@ void printWifiStatus() {
   Serial.print("To see this page in action, open a browser to http://");
   Serial.println(ip);
 }
-
