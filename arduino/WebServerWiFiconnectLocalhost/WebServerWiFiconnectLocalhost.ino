@@ -3,8 +3,8 @@
 #include <ESP8266WiFi.h>
 #include <DHT.h>
 
-char ssid[] = "FireBall";      //  your network SSID (name)
-char pass[] = "fish1ing";   // your network password
+char ssid[] = "ThienIphone";      //  your network SSID (name)
+char pass[] = "vynguyen";   // your network password
 int keyIndex = 0;                 // your network key Index number (needed only for WEP)
 const int acPin = 4;
 #define DHTPin 5
@@ -32,11 +32,7 @@ long lastConTime = 0;
 const long delayInterval= 1000L;
 
 long lastOnTime = 0;
-const long delayOnInt = 240
-
-
-
-000;
+const long delayOnInt = 10000;
 
 
 void setup() {
