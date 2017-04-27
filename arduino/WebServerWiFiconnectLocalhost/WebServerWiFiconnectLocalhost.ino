@@ -32,7 +32,7 @@ long lastConTime = 0;
 const long delayInterval= 1000L;
 
 long lastOnTime = 0;
-const long delayOnInt = 15000;
+const long delayOnInt = 240000;
 
 
 void setup() {
@@ -168,20 +168,20 @@ void loop() {
       Serial.println();
      
 
-      if(ACmode.indexOf("HEAT")!=-1&& millis()-lastOnTime>delayOnInt ){
+      if(ACmode.indexOf("HEAT")!=-1 ){
          
      
         if(sTemp-temp>0){
-          digitalWrite(HEATPin, LOW);
-          digitalWrite(ACPin, HIGH);
-          digitalWrite(FANPin, HIGH);
-          ACstatus = "HEATOn";
-          FanStatus = "ON";
-          lastOnTime = millis();
-        }
-      }else if(ACmode.indexOf("HEAT")!=-1){
-         ACstatus = "Waiting";
-        if(sTemp-temp<0){
+           if( millis()-lastOnTime>delayOnInt){
+              digitalWrite(HEATPin, LOW);
+              digitalWrite(ACPin, HIGH);
+              digitalWrite(FANPin, HIGH);
+              ACstatus = "HEATOn";
+              FanStatus = "ON";
+              lastOnTime = millis();
+             }
+        
+        }else if(sTemp-temp<0){
           digitalWrite(HEATPin, HIGH);
           digitalWrite(ACPin, LOW);
           ACstatus = "HEATOff";
@@ -190,24 +190,25 @@ void loop() {
             digitalWrite(FANPin, LOW);
             FanStatus = "OFF";
           }
-          
-          
         }
+          
+          
+       
         
-      }else if(ACmode.indexOf("COOL")!=-1&& millis()-lastOnTime>delayOnInt){
+      }else if(ACmode.indexOf("COOL")!=-1){
         
       
-        if(sTemp - temp< - 0.5){
-          digitalWrite(ACPin, HIGH);
-          digitalWrite(HEATPin, HIGH);
-          digitalWrite(FANPin, HIGH);
-          ACstatus = "COOLOn";
-          FanStatus = "ON";
-          lastOnTime = millis();
-        }
-      }else if(ACmode.indexOf("COOL")!=-1){ 
-          ACstatus = "Waiting";  
-        if(sTemp - temp>0){
+        if(sTemp - temp< - 0.5 ){
+          if( millis()-lastOnTime>delayOnInt){
+            digitalWrite(ACPin, HIGH);
+            digitalWrite(HEATPin, HIGH);
+            digitalWrite(FANPin, HIGH);
+            ACstatus = "COOLOn";
+            FanStatus = "ON";
+            lastOnTime = millis();
+          }
+        
+        }else if(sTemp - temp>0){
           digitalWrite(ACPin, LOW);
           digitalWrite(HEATPin, HIGH);
           ACstatus = "COOLOff"; 
