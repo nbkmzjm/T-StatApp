@@ -180,7 +180,7 @@ void loop() {
           lastOnTime = millis();
         }
       }else if(ACmode.indexOf("HEAT")!=-1){
-         ACstatus = "HEAT Waiting";
+         ACstatus = "Waiting";
         if(sTemp-temp<0){
           digitalWrite(HEATPin, HIGH);
           digitalWrite(ACPin, LOW);
@@ -206,7 +206,7 @@ void loop() {
           lastOnTime = millis();
         }
       }else if(ACmode.indexOf("COOL")!=-1){ 
-          ACstatus = "COOL Waiting";  
+          ACstatus = "Waiting";  
         if(sTemp - temp>0){
           digitalWrite(ACPin, LOW);
           digitalWrite(HEATPin, HIGH);
