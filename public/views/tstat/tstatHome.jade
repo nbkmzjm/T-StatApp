@@ -31,42 +31,42 @@ block content
 append scripts 
 	script.
 		$(function(){
-				var scene = new THREE.Scene();
-				var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-				camera.position.set(0, 0, 100);
-				camera.lookAt(new THREE.Vector3(0, 0, 0));
+				//- var scene = new THREE.Scene();
+				//- var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+				//- camera.position.set(0, 0, 100);
+				//- camera.lookAt(new THREE.Vector3(0, 0, 0));
 
-				var renderer = new THREE.WebGLRenderer();
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				document.body.appendChild( renderer.domElement );
+				//- var renderer = new THREE.WebGLRenderer();
+				//- renderer.setSize( window.innerWidth, window.innerHeight );
+				//- document.body.appendChild( renderer.domElement );
 
-				var geometry = new THREE.Geometry();
+				//- var geometry = new THREE.Geometry();
 
-				geometry.vertices.push(
-					new THREE.Vector3( -10,  10, 0 ),
-					new THREE.Vector3( -10, -10, 0 ),
-					new THREE.Vector3(  10, -10, 0 )
-				);
-				geometry.faces.push( new THREE.Face3( 0, 1, 2 ));
+				//- geometry.vertices.push(
+				//- 	new THREE.Vector3( -10,  10, 0 ),
+				//- 	new THREE.Vector3( -10, -10, 0 ),
+				//- 	new THREE.Vector3(  10, -10, 0 )
+				//- );
+				//- geometry.faces.push( new THREE.Face3( 0, 1, 2 ));
 
-				var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+				//- var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
 
-				var mesh = new THREE.Mesh( geometry, material );
-				mesh.drawMode = THREE.TrianglesDrawMode; //default
+				//- var mesh = new THREE.Mesh( geometry, material );
+				//- mesh.drawMode = THREE.TrianglesDrawMode; //default
 
-				scene.add( mesh );
+				//- scene.add( mesh );
 				
 
 				
 
-				var render = function () {
-					//- requestAnimationFrame( render );
+				//- var render = function () {
+				//- 	//- requestAnimationFrame( render );
 
 
-					renderer.render(scene, camera);
-				};
+				//- 	renderer.render(scene, camera);
+				//- };
 
-				render();
+				//- render();
 
 			setInterval(function(){
 				$.getJSON('/getJSONTemp').done(function(Rdata){
@@ -135,11 +135,30 @@ append scripts
 				setTempul.appendChild(tempDownli)
 
 				var setTempli = document.createElement('li')
-					var setTempInput = document.createElement('input')
-					setTempInput.type = 'text'
+
+					var setTempInput = document.createElement('select')
+					setTempInput.style.borderStyle = 'none'
+					setTempInput.style.fontSize = '25px';
+					//- setTempInput.style.width = '80px';
+					setTempInput.style.textAlign = 'center';
+					//- setTempInput.className = 'form-control col-sm-1'
 					setTempInput.id = 'sTemp'
 					//- setTempInput.readOnly = 'true'
-					setTempInput.value = !{JSON.stringify(sTemp)}
+						var optionDB = document.createElement('option')
+						optionDB.value = !{JSON.stringify(sTemp)}
+						optionDB.innerHTML = !{JSON.stringify(sTemp)}
+						setTempInput.appendChild(optionDB)
+
+						for(var x = 60; x < 90; x++){
+							var option = document.createElement('option')
+							option.value = x
+							option.innerHTML = x
+							setTempInput.appendChild(option)
+						}
+					setTempInput.addEventListener('change',function(){
+						$.post('/postJSONWebSet',{webSetTemp:setTempInput.value}).done(function(Rdata){})
+					})
+					//- setTempInput.value = !{JSON.stringify(sTemp)}
 					setTempli.appendChild(setTempInput)
 				setTempul.appendChild(setTempli)
 
