@@ -171,7 +171,7 @@ void loop() {
       if(ACmode.indexOf("HEAT")!=-1&& millis()-lastOnTime>delayOnInt ){
          
      
-        if(sTemp-temp>0 && temp < 17 ){
+        if(sTemp>temp){
           digitalWrite(HEATPin, LOW);
           digitalWrite(ACPin, HIGH);
           digitalWrite(FANPin, HIGH);
@@ -181,7 +181,7 @@ void loop() {
         }
       }else if(ACmode.indexOf("HEAT")!=-1){
          ACstatus = "HEATOff";
-        if(sTemp-temp<0 ){
+        if(sTemp<temp ||temp >26){
           digitalWrite(HEATPin, HIGH);
           digitalWrite(ACPin, LOW);
           ACstatus = "HEATOff";
@@ -197,7 +197,7 @@ void loop() {
       }else if(ACmode.indexOf("COOL")!=-1&& millis()-lastOnTime>delayOnInt){
         
       
-        if(sTemp-temp<0 && temp >23){
+        if(sTemp<temp){
           digitalWrite(ACPin, HIGH);
           digitalWrite(HEATPin, HIGH);
           digitalWrite(FANPin, HIGH);
@@ -207,7 +207,7 @@ void loop() {
         }
       }else if(ACmode.indexOf("COOL")!=-1){ 
          // ACstatus = "COOLOff";  
-        if(sTemp-temp>0){
+        if(sTemp>temp - 0.5 || temp < 21){
           digitalWrite(ACPin, LOW);
           digitalWrite(HEATPin, HIGH);
           ACstatus = "COOLOff"; 
@@ -253,12 +253,12 @@ void loop() {
       url += ACstatus;
       url += "&sTemp=";
       url += sTemp;
-      url += "&waiting=";
-      url += 180-((millis()-lastOnTime)/1000);
-      Serial.println("url is:" + url);
-      Serial.println("Waiting: ");
-      Serial.println(180-((millis()-lastOnTime)/1000));
-
+//      url += "&waiting=";
+//      url += 180-((millis()-lastOnTime)/1000);
+//      Serial.println("Waiting: ");
+//      Serial.println(180-((millis()-lastOnTime)/1000));
+      
+      Serial.println("url is:");
       Serial.println(url);
       client.print(String("GET ") + url + " HTTP/1.1\r\n" +
                    "Host: " + host + "\r\n\r\n"); 
