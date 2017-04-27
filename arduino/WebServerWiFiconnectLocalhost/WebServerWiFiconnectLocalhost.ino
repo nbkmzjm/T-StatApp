@@ -3,8 +3,8 @@
 #include <ESP8266WiFi.h>
 #include <DHT.h>
 
-char ssid[] = "ThienIphone";      //  your network SSID (name)
-char pass[] = "vynguyen";   // your network password
+char ssid[] = "FireBall";      //  your network SSID (name)
+char pass[] = "fish1ing";   // your network password
 int keyIndex = 0;                 // your network key Index number (needed only for WEP)
 const int acPin = 4;
 #define DHTPin 5
@@ -32,7 +32,7 @@ long lastConTime = 0;
 const long delayInterval= 1000L;
 
 long lastOnTime = 0;
-const long delayOnInt = 10000;
+const long delayOnInt = 15000;
 
 
 void setup() {
@@ -171,7 +171,7 @@ void loop() {
       if(ACmode.indexOf("HEAT")!=-1&& millis()-lastOnTime>delayOnInt ){
          
      
-        if(sTemp>temp){
+        if(sTemp-temp>0){
           digitalWrite(HEATPin, LOW);
           digitalWrite(ACPin, HIGH);
           digitalWrite(FANPin, HIGH);
@@ -180,8 +180,8 @@ void loop() {
           lastOnTime = millis();
         }
       }else if(ACmode.indexOf("HEAT")!=-1){
-         ACstatus = "HEATOff";
-        if(sTemp<temp ||temp >26){
+         ACstatus = "HEAT Waiting";
+        if(sTemp-temp<0){
           digitalWrite(HEATPin, HIGH);
           digitalWrite(ACPin, LOW);
           ACstatus = "HEATOff";
@@ -197,7 +197,7 @@ void loop() {
       }else if(ACmode.indexOf("COOL")!=-1&& millis()-lastOnTime>delayOnInt){
         
       
-        if(sTemp<temp){
+        if(sTemp - temp< - 0.5){
           digitalWrite(ACPin, HIGH);
           digitalWrite(HEATPin, HIGH);
           digitalWrite(FANPin, HIGH);
@@ -206,8 +206,8 @@ void loop() {
           lastOnTime = millis();
         }
       }else if(ACmode.indexOf("COOL")!=-1){ 
-         // ACstatus = "COOLOff";  
-        if(sTemp>temp - 0.5 || temp < 21){
+          ACstatus = "COOL Waiting";  
+        if(sTemp - temp>0){
           digitalWrite(ACPin, LOW);
           digitalWrite(HEATPin, HIGH);
           ACstatus = "COOLOff"; 
@@ -254,9 +254,9 @@ void loop() {
       url += "&sTemp=";
       url += sTemp;
 //      url += "&waiting=";
-//      url += 180-((millis()-lastOnTime)/1000);
-//      Serial.println("Waiting: ");
-//      Serial.println(180-((millis()-lastOnTime)/1000));
+//      url += 10-((millis()-lastOnTime)/1000);
+      Serial.println("Waiting: ");
+      Serial.println((millis()-lastOnTime)/1000);
       
       Serial.println("url is:");
       Serial.println(url);
