@@ -155,6 +155,9 @@ append scripts
 							option.innerHTML = x
 							setTempInput.appendChild(option)
 						}
+					setTempInput.addEventListener('change',function(){
+						$.post('/postJSONWebSet',{webSetTemp:setTempInput.value}).done(function(Rdata){})
+					})
 					//- setTempInput.value = !{JSON.stringify(sTemp)}
 					setTempli.appendChild(setTempInput)
 				setTempul.appendChild(setTempli)
@@ -166,7 +169,6 @@ append scripts
 					tempUpspan.innerHTML = "Up"
 					tempUpli.appendChild(tempUpspan)
 				tempUpli.addEventListener('click', function(){
-					alert($("#sTemp").val())
 					setTempInput.value++
 					$.post('/postJSONWebSet',{webSetTemp:setTempInput.value}).done(function(Rdata){})
 				})
