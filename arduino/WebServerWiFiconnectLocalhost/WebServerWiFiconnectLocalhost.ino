@@ -32,7 +32,7 @@ long lastConTime = 0;
 const long delayInterval= 1000L;
 
 long lastOnTime = 0;
-const long delayOnInt = 240000;
+const long delayOnInt = 210000;
 
 
 void setup() {
@@ -179,7 +179,11 @@ void loop() {
               ACstatus = "HEATOn";
               FanStatus = "ON";
               lastOnTime = millis();
-             }
+             }else if(ACstatus != "HEATOn"){
+            
+              String waitSec = String((delayOnInt/1000)-((millis()-lastOnTime)/1000));
+              ACstatus = String("Waiting:_"+ waitSec);
+            }
         
         }else if(sTemp-temp<0){
           digitalWrite(HEATPin, HIGH);
@@ -206,6 +210,10 @@ void loop() {
             ACstatus = "COOLOn";
             FanStatus = "ON";
             lastOnTime = millis();
+          }else if(ACstatus != "COOLOn"){
+            
+            String waitSec = String((delayOnInt/1000)-((millis()-lastOnTime)/1000));
+            ACstatus = String("Waiting:_"+ waitSec);
           }
         
         }else if(sTemp - temp>0){
@@ -256,8 +264,8 @@ void loop() {
       url += sTemp;
 //      url += "&waiting=";
 //      url += 10-((millis()-lastOnTime)/1000);
-      Serial.println("Waiting: ");
-      Serial.println((millis()-lastOnTime)/1000);
+//      Serial.println("Waiting: ");
+//      Serial.println((millis()-lastOnTime)/1000);
       
       Serial.println("url is:");
       Serial.println(url);
